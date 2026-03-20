@@ -66,27 +66,9 @@ const About = () => {
               <div className="relative pl-6 border-l-2 border-primary/30 space-y-6">
                 <div className="relative">
                   <div className="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-primary ring-4 ring-white dark:ring-slate-900"></div>
-                  <h4 className="font-bold text-gray-900 dark:text-white text-lg">CDAC</h4>
-                  <p className="text-primary font-medium mb-1">SunBeam Institute, Pune</p>
+                  <h4 className="font-bold text-gray-900 dark:text-white text-lg">PG-DAC (CDAC)</h4>
+                  <p className="text-primary font-medium mb-1">SunBeam Institute of Information Technology, Pune</p>
                   <p className="text-sm text-gray-500 dark:text-gray-400">Intensive training focused on Full Stack Development and core Software Engineering concepts.</p>
-                </div>
-                <div className="relative">
-                  <div className="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-primary ring-4 ring-white dark:ring-slate-900"></div>
-                  <h4 className="font-bold text-gray-900 dark:text-white text-lg">B.E. - Electronics & Telecommunication</h4>
-                  <p className="text-primary font-medium mb-1">Vivekananda Education Society's Institute of Technology</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">University of Mumbai, Maharashtra • 2024 • 70.43% (Division I)</p>
-                </div>
-                <div className="relative">
-                  <div className="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-primary ring-4 ring-white dark:ring-slate-900"></div>
-                  <h4 className="font-bold text-gray-900 dark:text-white text-lg">XII - Science</h4>
-                  <p className="text-primary font-medium mb-1">Hande Deshmukh Hitech College Alephata</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Maharashtra • 2020 • 77.38% (Division I)</p>
-                </div>
-                <div className="relative">
-                  <div className="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-primary ring-4 ring-white dark:ring-slate-900"></div>
-                  <h4 className="font-bold text-gray-900 dark:text-white text-lg">X - General</h4>
-                  <p className="text-primary font-medium mb-1">Jay Malhar High School Jambut</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Maharashtra • 2018 • 88.8% (Division I)</p>
                 </div>
               </div>
             </div>

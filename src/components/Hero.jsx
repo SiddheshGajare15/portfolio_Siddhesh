@@ -21,7 +21,7 @@ const Hero = () => {
             transition={{ delay: 0.2 }}
             className="inline-block px-4 py-1.5 mb-6 rounded-full bg-blue-50 dark:bg-blue-900/30 text-primary font-medium text-sm border border-blue-100 dark:border-blue-800/50"
           >
-            Available for new opportunities
+            Full Stack Developer | Building Scalable Web Applications
           </motion.div>
           <h1 className="text-5xl md:text-7xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-4 leading-tight">
             Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-indigo-500">Siddhesh Gajare</span>
@@ -47,13 +47,10 @@ const Hero = () => {
             View Projects
           </a>
           <a
-            href="/resume.pdf"
-            download="Siddhesh_Gajare_Resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#services"
             className="px-8 py-3.5 rounded-full bg-white dark:bg-slate-800 text-gray-900 dark:text-white border border-gray-200 dark:border-slate-700 font-medium hover:bg-gray-50 dark:hover:bg-slate-700 hover:-translate-y-1 transition-all shadow-sm text-center"
           >
-            Download Resume
+            Hire Me
           </a>
         </motion.div>
       </div>

@@ -1,27 +1,32 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaHtml5, FaCss3Alt, FaJs, FaReact, FaJava, FaDatabase } from 'react-icons/fa';
-import { SiSpringboot, SiMysql, SiPostman, SiJira, SiMongodb, SiSwagger, SiGithubactions } from 'react-icons/si';
-import { VscGitMerge, VscVscode } from 'react-icons/vsc';
+import { FaHtml5, FaCss3Alt, FaJs, FaReact, FaJava, FaAngular, FaBootstrap, FaPython, FaDocker, FaBug, FaBrain, FaDatabase } from 'react-icons/fa';
+import { SiSpringboot, SiMysql, SiJira, SiCplusplus, SiSpring, SiMongodb, SiPostman, SiSwagger, SiGithubactions } from 'react-icons/si';
+import { VscGitMerge } from 'react-icons/vsc';
 
 const Skills = () => {
   const skillCategories = [
     {
       title: 'Frontend',
       skills: [
+        { name: 'React', icon: <FaReact className="text-[#61DAFB]" /> },
+        { name: 'Angular', icon: <FaAngular className="text-[#DD0031]" /> },
+        { name: 'JavaScript', icon: <FaJs className="text-[#F7DF1E]" /> },
         { name: 'HTML5', icon: <FaHtml5 className="text-[#E34F26]" /> },
         { name: 'CSS3', icon: <FaCss3Alt className="text-[#1572B6]" /> },
-        { name: 'JavaScript', icon: <FaJs className="text-[#F7DF1E]" /> },
-        { name: 'React', icon: <FaReact className="text-[#61DAFB]" /> },
+        { name: 'Bootstrap', icon: <FaBootstrap className="text-[#7952B3]" /> },
       ]
     },
     {
-      title: 'Backend',
+      title: 'Backend & Core',
       skills: [
         { name: 'Java', icon: <FaJava className="text-[#007396]" /> },
         { name: 'Spring Boot', icon: <SiSpringboot className="text-[#6DB33F]" /> },
-        { name: '.NET', icon: <div className="text-[#512BD4] font-bold text-xs border-2 border-[#512BD4] rounded px-1">.NET</div> },
+        { name: 'Spring MVC', icon: <SiSpring className="text-[#6DB33F]" /> },
+        { name: 'Python', icon: <FaPython className="text-[#3776AB]" /> },
+        { name: 'C++', icon: <SiCplusplus className="text-[#00599C]" /> },
         { name: 'C#', icon: <div className="text-[#239120] font-bold text-xs border-2 border-[#239120] rounded px-1">C#</div> },
+        { name: '.NET', icon: <div className="text-[#512BD4] font-bold text-xs border-2 border-[#512BD4] rounded px-1">.NET</div> },
       ]
     },
     {
@@ -29,21 +34,22 @@ const Skills = () => {
       skills: [
         { name: 'MySQL', icon: <SiMysql className="text-[#4479A1]" /> },
         { name: 'MongoDB', icon: <SiMongodb className="text-[#47A248]" /> },
-        { name: 'Playwright', icon: <div className="text-[#2EAD33] font-bold text-xs border-2 border-[#2EAD33] rounded px-1">PW</div> },
+        { name: 'Auto Testing', icon: <FaBug className="text-orange-500" /> },
         { name: 'Manual Testing', icon: <FaDatabase className="text-slate-500" /> },
       ]
     },
     {
-      title: 'Tools & Others',
+      title: 'Tools & AI',
       skills: [
         { name: 'Git', icon: <VscGitMerge className="text-[#F05032]" /> },
-        { name: 'Maven', icon: <span className="font-bold text-[#C71A36] text-sm">M</span> },
-        { name: 'Postman', icon: <SiPostman className="text-[#FF6C37]" /> },
+        { name: 'Docker', icon: <FaDocker className="text-[#2496ED]" /> },
         { name: 'Jira', icon: <SiJira className="text-[#0052CC]" /> },
+        { name: 'Postman', icon: <SiPostman className="text-[#FF6C37]" /> },
         { name: 'Swagger', icon: <SiSwagger className="text-[#85EA2D]" /> },
-        { name: 'VS Code', icon: <VscVscode className="text-[#007ACC]" /> },
+        { name: 'Maven', icon: <span className="font-bold text-[#C71A36] text-sm">M</span> },
         { name: 'CI/CD', icon: <SiGithubactions className="text-[#2088FF]" /> },
         { name: 'GitHub Actions', icon: <SiGithubactions className="text-[#2088FF]" /> },
+        { name: 'AI Modules', icon: <FaBrain className="text-pink-500" /> },
       ]
     }
   ];
