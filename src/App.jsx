@@ -35,7 +35,9 @@ function App() {
 
   return (
     <div className="min-h-screen">
-      <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+      <header>
+        <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+      </header>
       <main>
         <Hero />
         <About />
