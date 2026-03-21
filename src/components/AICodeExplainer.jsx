@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaRobot, FaPaperPlane, FaLightbulb, FaCopy, FaTrash, FaSyncAlt } from 'react-icons/fa';
-import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const AICodeExplainer = () => {
     const [input, setInput] = useState('');
@@ -11,6 +11,14 @@ const AICodeExplainer = () => {
     const [error, setError] = useState('');
     const [history, setHistory] = useState([]);
     const responseRef = useRef(null);
+
+    // Initialize Gemini AI
+    // Get API Key from environment variable
+    const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY || "");
+    const model = genAI.getGenerativeModel({ 
+        model: "gemini-1.5-flash",
+        systemInstruction: "You are an expert AI Code Explainer and Interview Assistant. Your goal is to help students understand coding problems, Java snippets, and technical interview queries. Use Markdown formatting for headings and code blocks."
+    });
 
     // Load history from localStorage
     useEffect(() => {
@@ -36,24 +44,36 @@ const AICodeExplainer = () => {
             return;
         }
 
+        if (!import.meta.env.VITE_GEMINI_API_KEY) {
+            setError('API Key is missing. Please add VITE_GEMINI_API_KEY to your .env file.');
+            return;
+        }
+
         setLoading(true);
         setError('');
         setResponse('');
 
         try {
-            const res = await axios.post('/api/ai-explain', {
-                input,
-                mode
-            });
+            let userPrompt = "";
 
-            const aiRes = res.data.response;
+            if (mode === 'explain') {
+                userPrompt = `Explain the following code or problem in simple terms. Provide a step-by-step breakdown:\n\n${input}`;
+            } else if (mode === 'approach') {
+                userPrompt = `Describe the logical approach and algorithm needed to solve this problem. If there is an optimized solution, mention it briefly:\n\n${input}`;
+            } else {
+                userPrompt = `Help me with the following interview-related query or code analysis:\n\n${input}`;
+            }
+
+            const result = await model.generateContent(userPrompt);
+            const aiRes = result.response.text();
+            
             setResponse(aiRes);
             
             // Add to history (keep only last 3)
             setHistory(prev => [{ input: input.substring(0, 50) + '...', response: aiRes }, ...prev].slice(0, 3));
         } catch (err) {
             console.error(err);
-            setError('Failed to connect to AI server. Make sure the backend is running.');
+            setError('Failed to connect to AI server. Make sure your API key is valid and you have an internet connection.');
         } finally {
             setLoading(false);
         }
