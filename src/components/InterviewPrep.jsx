@@ -1,9 +1,54 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaInstagram, FaLinkedin, FaTimes, FaExternalLinkAlt, FaInfoCircle } from 'react-icons/fa';
+import { FaInstagram, FaLinkedin, FaTimes, FaExternalLinkAlt, FaInfoCircle, FaRobot, FaSyncAlt } from 'react-icons/fa';
+import ReactMarkdown from 'react-markdown';
+import { getGeminiModel, isApiKeySet } from '../aiService';
 
 const InterviewPrep = () => {
   const [selectedQuestion, setSelectedQuestion] = useState(null);
+  const [aiResponse, setAiResponse] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const model = getGeminiModel("You are a technical interview coach. Provide clean, optimized Java solutions with clear logic explanations. Use Markdown for formatting.");
+
+  const getAISolution = async (question) => {
+    setLoading(true);
+    setAiResponse('');
+
+    if (!isApiKeySet()) {
+       setTimeout(() => {
+         setAiResponse(`### 🚀 AI Solution (Demo Mode)
+To see a live, complete Java solution and complexity analysis for the **${question.title}** problem, please add your **Gemini API Key** to the .env file! 
+         
+In a real scenario, I will:
+- Write optimized Java code.
+- Explain the Time & Space complexity.
+- Provide edge case considerations.`);
+         setLoading(false);
+       }, 1000);
+       return;
+    }
+
+    try {
+      const prompt = `Solve this interview question:
+      Title: ${question.title}
+      Statement: ${question.statement}
+      Rules: ${question.rules.join(', ')}
+      
+      Provide:
+      1. Java Solution
+      2. Step by step logic
+      3. Time & Space Complexity analysis`;
+
+      const result = await model.generateContent(prompt);
+      setAiResponse(result.response.text());
+    } catch (error) {
+      console.error(error);
+      setAiResponse("Failed to generate AI solution. Please check your connection.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const questions = {
     shift1: [
@@ -275,11 +320,60 @@ const InterviewPrep = () => {
                   <h4 className="text-xs font-black uppercase tracking-[0.2em] text-primary mb-3">Logic Explanation</h4>
                   <p className="text-gray-600 dark:text-slate-400 italic text-sm leading-relaxed">{selectedQuestion.explanation}</p>
                 </div>
+
+                {/* AI Solution Area */}
+                <div className="pt-8 border-t dark:border-slate-800">
+                   <div className="flex items-center justify-between mb-6">
+                      <h4 className="text-sm font-black uppercase tracking-widest text-primary flex items-center gap-2">
+                        <FaRobot className="animate-pulse" />
+                        AI Analysis
+                      </h4>
+                      {!aiResponse && !loading && (
+                        <button 
+                          onClick={() => getAISolution(selectedQuestion)}
+                          className="text-xs font-bold py-2 px-5 rounded-full bg-primary/10 text-primary border border-primary/20 hover:bg-primary hover:text-white transition-all"
+                        >
+                          Generate AI Answer
+                        </button>
+                      )}
+                   </div>
+
+                   {loading ? (
+                     <div className="bg-slate-50 dark:bg-slate-950/50 rounded-2xl p-8 text-center">
+                        <FaSyncAlt size={24} className="animate-spin text-primary mx-auto mb-4" />
+                        <p className="text-sm text-gray-500 font-medium">AI is thinking about the best solution...</p>
+                     </div>
+                   ) : aiResponse ? (
+                     <motion.div 
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="prose prose-slate dark:prose-invert max-w-none bg-slate-50 dark:bg-slate-950/50 rounded-2xl p-8 border dark:border-slate-800"
+                      >
+                        <ReactMarkdown 
+                           components={{
+                               code({node, inline, className, children, ...props}) {
+                                   return !inline ? (
+                                       <pre className="p-4 bg-slate-900 rounded-xl overflow-x-auto my-4 text-xs">
+                                           <code className="text-blue-400 font-mono" {...props}>{children}</code>
+                                       </pre>
+                                   ) : (
+                                       <code className="px-1.5 py-0.5 bg-blue-50 dark:bg-blue-900/30 text-primary font-bold rounded" {...props}>{children}</code>
+                                   )
+                               }
+                           }}
+                        >
+                          {aiResponse}
+                        </ReactMarkdown>
+                     </motion.div>
+                   ) : (
+                     <p className="text-sm text-gray-400 italic">Need help? Click Generate to get an AI-powered solution.</p>
+                   )}
+                </div>
               </div>
 
               <div className="p-6 border-t dark:border-slate-800 flex justify-end">
                 <button 
-                  onClick={() => setSelectedQuestion(null)}
+                  onClick={() => { setSelectedQuestion(null); setAiResponse(''); }}
                   className="py-3 px-8 bg-primary text-white font-bold rounded-2xl hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20"
                 >
                   Close View

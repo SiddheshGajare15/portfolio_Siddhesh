@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaRobot, FaPaperPlane, FaLightbulb, FaCopy, FaTrash, FaSyncAlt } from 'react-icons/fa';
 import ReactMarkdown from 'react-markdown';
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { getGeminiModel, isApiKeySet } from '../aiService';
 
 const AICodeExplainer = () => {
     const [input, setInput] = useState('');
@@ -12,13 +12,8 @@ const AICodeExplainer = () => {
     const [history, setHistory] = useState([]);
     const responseRef = useRef(null);
 
-    // Initialize Gemini AI
-    // Get API Key from environment variable
-    const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY || "");
-    const model = genAI.getGenerativeModel({ 
-        model: "gemini-1.5-flash",
-        systemInstruction: "You are an expert AI Code Explainer and Interview Assistant. Your goal is to help students understand coding problems, Java snippets, and technical interview queries. Use Markdown formatting for headings and code blocks."
-    });
+    // Initialize Gemini AI via central service
+    const model = getGeminiModel("You are an expert AI Code Explainer and Interview Assistant. Your goal is to help students understand coding problems, Java snippets, and technical interview queries. Use Markdown formatting for headings and code blocks.");
 
     // Load history from localStorage
     useEffect(() => {
@@ -44,14 +39,28 @@ const AICodeExplainer = () => {
             return;
         }
 
-        if (!import.meta.env.VITE_GEMINI_API_KEY) {
-            setError('API Key is missing. Please add VITE_GEMINI_API_KEY to your .env file.');
-            return;
-        }
-
         setLoading(true);
         setError('');
         setResponse('');
+
+        // Provide a Demo Mode walkthrough if the API key is missing
+        if (!isApiKeySet()) {
+            setTimeout(() => {
+                const demoResponse = `### 🌟 Demo Mode Active
+It looks like you haven't added your **Gemini API Key** yet. Once you add it, I'll be able to analyze any code you give me!
+
+Here's how this code snippet works:
+1. **Public Class**: This is the entry point of your Java program.
+2. **Main Method**: This is where the execution starts.
+3. **Execution**: It prints "Hello World" to the console.
+
+**To unlock full live AI analysis, please add your VITE_GEMINI_API_KEY to your .env file!**`;
+                setResponse(demoResponse);
+                setHistory(prev => [{ input: input.substring(0, 50) + '...', response: "Demo Mode Response" }, ...prev].slice(0, 3));
+                setLoading(false);
+            }, 1000);
+            return;
+        }
 
         try {
             let userPrompt = "";
