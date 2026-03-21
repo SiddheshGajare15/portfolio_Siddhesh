@@ -7,6 +7,7 @@ import Projects from './components/Projects';
 import Services from './components/Services';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import InterviewPrep from './components/InterviewPrep';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -44,6 +45,7 @@ function App() {
         <About />
         <Skills />
         <Projects />
+        <InterviewPrep />
         <Services />
         <Contact />
       </main>

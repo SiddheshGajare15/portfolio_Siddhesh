@@ -92,7 +92,7 @@ const Services = () => {
           </div>
           <div className="flex items-center gap-4 mb-4">
             <FaServer className="text-3xl text-gray-400 dark:text-gray-500" />
-            <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200">Backend Development</h3>
+            <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200">Fullstack Web Applications Development</h3>
           </div>
           <ul className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-500 dark:text-gray-400">
             <li className="flex items-center gap-2"><span className="text-gray-400">•</span> REST APIs (Spring Boot)</li>
