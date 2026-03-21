@@ -12,22 +12,13 @@ const InterviewPrep = () => {
   const model = getGeminiModel("You are a technical interview coach. Provide clean, optimized Java solutions with clear logic explanations. Use Markdown for formatting.");
 
   const getAISolution = async (question) => {
-    setLoading(true);
-    setAiResponse('');
-
     if (!isApiKeySet()) {
-       setTimeout(() => {
-         setAiResponse(`### 🚀 AI Solution (Demo Mode)
-To see a live, complete Java solution and complexity analysis for the **${question.title}** problem, please add your **Gemini API Key** to the .env file! 
-         
-In a real scenario, I will:
-- Write optimized Java code.
-- Explain the Time & Space complexity.
-- Provide edge case considerations.`);
-         setLoading(false);
-       }, 1000);
+       setAiResponse("Please configure your API key");
        return;
     }
+
+    setLoading(true);
+    setAiResponse('');
 
     try {
       const prompt = `Solve this interview question:
@@ -44,7 +35,7 @@ In a real scenario, I will:
       setAiResponse(result.response.text());
     } catch (error) {
       console.error(error);
-      setAiResponse("Failed to generate AI solution. Please check your connection.");
+      setAiResponse("Something went wrong. Try again.");
     } finally {
       setLoading(false);
     }

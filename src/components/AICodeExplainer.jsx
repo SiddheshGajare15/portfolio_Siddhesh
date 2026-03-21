@@ -39,28 +39,15 @@ const AICodeExplainer = () => {
             return;
         }
 
+        // Check if API key is missing based on user request
+        if (!isApiKeySet()) {
+            setError('Please configure your API key');
+            return;
+        }
+
         setLoading(true);
         setError('');
         setResponse('');
-
-        // Provide a Demo Mode walkthrough if the API key is missing
-        if (!isApiKeySet()) {
-            setTimeout(() => {
-                const demoResponse = `### 🌟 Demo Mode Active
-It looks like you haven't added your **Gemini API Key** yet. Once you add it, I'll be able to analyze any code you give me!
-
-Here's how this code snippet works:
-1. **Public Class**: This is the entry point of your Java program.
-2. **Main Method**: This is where the execution starts.
-3. **Execution**: It prints "Hello World" to the console.
-
-**To unlock full live AI analysis, please add your VITE_GEMINI_API_KEY to your .env file!**`;
-                setResponse(demoResponse);
-                setHistory(prev => [{ input: input.substring(0, 50) + '...', response: "Demo Mode Response" }, ...prev].slice(0, 3));
-                setLoading(false);
-            }, 1000);
-            return;
-        }
 
         try {
             let userPrompt = "";
@@ -82,7 +69,8 @@ Here's how this code snippet works:
             setHistory(prev => [{ input: input.substring(0, 50) + '...', response: aiRes }, ...prev].slice(0, 3));
         } catch (err) {
             console.error(err);
-            setError('Failed to connect to AI server. Make sure your API key is valid and you have an internet connection.');
+            // Show requested user-facing error
+            setError('Something went wrong. Try again.');
         } finally {
             setLoading(false);
         }
