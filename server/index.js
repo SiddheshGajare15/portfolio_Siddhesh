@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import OpenAI from 'openai';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 dotenv.config();
 
@@ -11,15 +11,18 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+const apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+const genAI = new GoogleGenerativeAI(apiKey);
 
 app.post('/api/ai-explain', async (req, res) => {
   const { input, mode } = req.body;
 
   if (!input) {
     return res.status(400).json({ error: 'Please provide code or a question.' });
+  }
+
+  if (!apiKey) {
+    return res.status(500).json({ error: 'Gemini API Key missing on server.' });
   }
 
   try {
@@ -34,18 +37,17 @@ app.post('/api/ai-explain', async (req, res) => {
       userPrompt = `Help me with the following interview-related query or code analysis:\n\n${input}`;
     }
 
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini", // Better and more efficient
-      messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: userPrompt }
-      ],
-      temperature: 0.7,
+    const model = genAI.getGenerativeModel({ 
+        model: "gemini-1.5-flash",
+        systemInstruction: systemPrompt
     });
 
-    res.json({ response: response.choices[0].message.content });
+    const result = await model.generateContent(userPrompt);
+    const response = await result.response.text();
+
+    res.json({ response });
   } catch (error) {
-    console.error('OpenAI Error:', error);
+    console.error('Gemini AI Error:', error);
     res.status(500).json({ error: 'Failed' });
   }
 });

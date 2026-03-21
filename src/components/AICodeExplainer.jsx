@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaRobot, FaPaperPlane, FaLightbulb, FaCopy, FaTrash, FaSyncAlt } from 'react-icons/fa';
 import ReactMarkdown from 'react-markdown';
-import { getGeminiModel, isApiKeySet } from '../aiService';
+import { callAiBackend, isApiKeySet } from '../aiService';
 
 const AICodeExplainer = () => {
     const [input, setInput] = useState('');
@@ -12,8 +12,8 @@ const AICodeExplainer = () => {
     const [history, setHistory] = useState([]);
     const responseRef = useRef(null);
 
-    // Initialize Gemini AI via central service
-    const model = getGeminiModel("You are an expert AI Code Explainer and Interview Assistant. Your goal is to help students understand coding problems, Java snippets, and technical interview queries. Use Markdown formatting for headings and code blocks.");
+    // Component no longer needs to initialize the model directly
+    // const model = getGeminiModel("...");
 
     // Load history from localStorage
     useEffect(() => {
@@ -50,18 +50,7 @@ const AICodeExplainer = () => {
         setResponse('');
 
         try {
-            let userPrompt = "";
-
-            if (mode === 'explain') {
-                userPrompt = `Explain the following code or problem in simple terms. Provide a step-by-step breakdown:\n\n${input}`;
-            } else if (mode === 'approach') {
-                userPrompt = `Describe the logical approach and algorithm needed to solve this problem. If there is an optimized solution, mention it briefly:\n\n${input}`;
-            } else {
-                userPrompt = `Help me with the following interview-related query or code analysis:\n\n${input}`;
-            }
-
-            const result = await model.generateContent(userPrompt);
-            const aiRes = result.response.text();
+            const aiRes = await callAiBackend(input, mode);
             
             setResponse(aiRes);
             

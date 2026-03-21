@@ -1,4 +1,4 @@
-import OpenAI from 'openai';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 export default async function handler(req, res) {
   // Add basic CORS headers for serverless
@@ -20,9 +20,13 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Please provide code or a question.' });
   }
 
-  const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-  });
+  const apiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+  
+  if (!apiKey) {
+    return res.status(500).json({ error: 'Gemini API Key not configured on server.' });
+  }
+
+  const genAI = new GoogleGenerativeAI(apiKey);
 
   try {
     const systemPrompt = "You are an expert AI Code Explainer and Interview Assistant. Your goal is to help students understand coding problems, Java snippets, and technical interview queries. Use Markdown formatting for headings and code blocks.";
@@ -36,18 +40,18 @@ export default async function handler(req, res) {
       userPrompt = `Help me with the following interview-related query or code analysis:\n\n${input}`;
     }
 
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: userPrompt }
-      ],
-      temperature: 0.7,
+    // Using gemini-1.5-flash (stable)
+    const model = genAI.getGenerativeModel({ 
+        model: "gemini-1.5-flash",
+        systemInstruction: systemPrompt
     });
 
-    return res.status(200).json({ response: response.choices[0].message.content });
+    const result = await model.generateContent(userPrompt);
+    const response = await result.response.text();
+
+    return res.status(200).json({ response });
   } catch (error) {
-    console.error('OpenAI Error:', error);
-    return res.status(500).json({ error: 'Failed to fetch AI response.' });
+    console.error('Gemini AI Error:', error);
+    return res.status(500).json({ error: 'Failed to fetch AI response from Gemini.' });
   }
 }

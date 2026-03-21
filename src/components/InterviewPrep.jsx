@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaInstagram, FaLinkedin, FaTimes, FaExternalLinkAlt, FaInfoCircle, FaRobot, FaSyncAlt } from 'react-icons/fa';
 import ReactMarkdown from 'react-markdown';
-import { getGeminiModel, isApiKeySet } from '../aiService';
+import { callAiBackend, isApiKeySet } from '../aiService';
 
 const InterviewPrep = () => {
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [aiResponse, setAiResponse] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const model = getGeminiModel("You are a technical interview coach. Provide clean, optimized Java solutions with clear logic explanations. Use Markdown for formatting.");
+  // Component no longer needs to initialize the model directly
+  // const model = getGeminiModel("...");
 
   const getAISolution = async (question) => {
     if (!isApiKeySet()) {
@@ -21,18 +22,10 @@ const InterviewPrep = () => {
     setAiResponse('');
 
     try {
-      const prompt = `Solve this interview question:
-      Title: ${question.title}
-      Statement: ${question.statement}
-      Rules: ${question.rules.join(', ')}
-      
-      Provide:
-      1. Java Solution
-      2. Step by step logic
-      3. Time & Space Complexity analysis`;
+      const prompt = `Solve this interview question:\nTitle: ${question.title}\nStatement: ${question.statement}\nRules: ${question.rules.join(', ')}\n\nProvide:\n1. Java Solution\n2. Step by step logic\n3. Time & Space Complexity analysis`;
 
-      const result = await model.generateContent(prompt);
-      setAiResponse(result.response.text());
+      const resultText = await callAiBackend(prompt, 'approach');
+      setAiResponse(resultText);
     } catch (error) {
       console.error(error);
       setAiResponse("Something went wrong. Try again.");
