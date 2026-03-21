@@ -20,6 +20,7 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
     { name: 'Skills', href: '#skills' },
     { name: 'Projects', href: '#projects' },
     { name: 'Interview Prep', href: '#interview-prep' },
+    { name: 'AI Assistant', href: '#ai-assistant' },
     { name: 'Services', href: '#services' },
     { name: 'Contact', href: '#contact' },
   ];

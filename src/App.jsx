@@ -8,6 +8,7 @@ import Services from './components/Services';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import InterviewPrep from './components/InterviewPrep';
+import AICodeExplainer from './components/AICodeExplainer';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -46,6 +47,7 @@ function App() {
         <Skills />
         <Projects />
         <InterviewPrep />
+        <AICodeExplainer />
         <Services />
         <Contact />
       </main>
