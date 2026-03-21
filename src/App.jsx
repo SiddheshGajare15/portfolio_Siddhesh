@@ -7,7 +7,7 @@ import Projects from './components/Projects';
 import Services from './components/Services';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
-// import InterviewPrep from './components/InterviewPrep';
+import InterviewPrep from './components/InterviewPrep';
 // import AICodeExplainer from './components/AICodeExplainer';
 
 function App() {
@@ -46,8 +46,7 @@ function App() {
         <About />
         <Skills />
         <Projects />
-        {/* AI Features removed for now */}
-        {/* <InterviewPrep /> */}
+        <InterviewPrep />
         {/* <AICodeExplainer /> */}
         <Services />
         <Contact />
