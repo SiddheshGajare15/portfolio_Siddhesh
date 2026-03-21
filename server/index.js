@@ -48,7 +48,7 @@ app.post('/api/ai-explain', async (req, res) => {
     res.json({ response });
   } catch (error) {
     console.error('Gemini AI Error:', error);
-    res.status(500).json({ error: 'Failed' });
+    res.status(500).json({ error: 'Gemini AI Error: ' + (error.message || 'Unknown error') });
   }
 });
 
