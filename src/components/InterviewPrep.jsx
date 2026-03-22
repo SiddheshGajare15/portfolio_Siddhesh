@@ -152,9 +152,8 @@ const InterviewPrep = () => {
             🔥 Interview Preparation – <span className="text-primary italic font-semibold">Coding Questions</span>
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed italic mb-8">
-            "Real coding questions from top companies like TCS, curated to help you prepare for technical interviews."
+            Real coding questions from top companies, curated to help you prepare for technical interviews.
           </p>
-          <div className="w-24 h-1.5 bg-gradient-to-r from-primary to-indigo-500 mx-auto rounded-full"></div>
         </motion.div>
 
         {/* Professional Transparency Disclaimer */}

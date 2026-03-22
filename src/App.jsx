@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion, useScroll, useSpring } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -13,12 +13,6 @@ import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
 
   useEffect(() => {
     // Check initial user preference or system theme
@@ -45,11 +39,6 @@ function App() {
 
   return (
     <div className="min-h-screen bg-[var(--background)] transition-colors duration-500 selection:bg-primary/20">
-      <motion.div
-        className="fixed top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-primary via-indigo-500 to-purple-600 z-[1000] origin-left"
-        style={{ scaleX }}
-      />
-      
       <header>
         <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
       </header>

@@ -13,7 +13,6 @@ const About = () => {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">About Me</h2>
-          <div className="w-20 h-1.5 bg-gradient-to-r from-primary to-indigo-500 mx-auto rounded-full"></div>
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-12 items-center">

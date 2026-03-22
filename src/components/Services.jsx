@@ -43,7 +43,6 @@ const Services = () => {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">💼 Services I Offer</h2>
-          <div className="w-20 h-1.5 bg-gradient-to-r from-primary to-indigo-500 mx-auto rounded-full mb-6"></div>
           <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             I provide affordable and high-quality web solutions for individuals, students, and small businesses. Currently focused on frontend development and small-scale applications.
           </p>
