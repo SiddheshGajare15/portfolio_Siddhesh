@@ -28,13 +28,24 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = '0px'; // Prevent shift
+    } else {
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+    };
+  }, [isOpen]);
+
   const handleLinkClick = (e, id) => {
     e.preventDefault();
     setIsOpen(false);
-    // Smooth scroll with a small delay for menu exit
-    setTimeout(() => {
-      scrollToSection(id);
-    }, 250);
+    scrollToSection(id);
   };
 
   return (
@@ -89,7 +100,7 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
           </button>
         </div>
 
-        {/* Mobile Buttons - Centered better to prevent cutoff */}
+        {/* Mobile Buttons */}
         <div className="flex lg:hidden items-center gap-2 sm:gap-3">
            <button
             onClick={toggleDarkMode}
@@ -116,7 +127,7 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-0 top-0 left-0 w-full h-screen bg-white dark:bg-slate-900 z-[200] lg:hidden flex flex-col"
+            className={`fixed inset-0 top-0 left-0 w-full h-screen bg-white dark:bg-slate-900 z-[200] lg:hidden flex flex-col ${isOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}
           >
             {/* Mobile Header */}
             <div className="flex justify-between items-center h-24 px-6 sm:px-10 border-b border-gray-100 dark:border-slate-800">
