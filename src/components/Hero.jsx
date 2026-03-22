@@ -3,33 +3,37 @@ import { motion } from 'framer-motion';
 
 const Hero = () => {
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center pt-16 px-4 relative overflow-hidden">
-      {/* Background decorations */}
-      <div className="absolute top-1/4 left-10 w-72 h-72 bg-blue-400/10 rounded-full blur-3xl -z-10"></div>
-      <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-indigo-400/10 rounded-full blur-3xl -z-10"></div>
+    <section id="home" className="min-h-screen flex items-center justify-center pt-20 px-6 relative overflow-hidden">
+      {/* Background decorations - Fixed to prevent overflow */}
+      <div className="absolute top-1/4 -left-20 w-72 h-72 bg-blue-400/10 rounded-full blur-3xl -z-10 animate-pulse"></div>
+      <div className="absolute bottom-1/4 -right-20 w-72 h-72 bg-indigo-400/10 rounded-full blur-3xl -z-10 animate-pulse"></div>
 
       <div className="max-w-7xl mx-auto w-full flex flex-col items-center text-center z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-6"
+          className="mb-8 w-full"
         >
           <motion.div 
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="inline-block px-4 py-1.5 mb-6 rounded-full bg-blue-50 dark:bg-blue-900/30 text-primary font-medium text-sm border border-blue-100 dark:border-blue-800/50"
+            className="inline-flex items-center px-4 py-2 mb-8 rounded-full bg-blue-50/80 dark:bg-blue-900/40 text-primary font-bold text-[10px] sm:text-xs uppercase tracking-widest border border-blue-100/50 dark:border-blue-800/50 backdrop-blur-md"
           >
-            Full Stack Developer | Building Scalable Web Applications
+            <span className="relative flex h-2 w-2 mr-3">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+            </span>
+            Full Stack Developer | Building Scalable Web Apps
           </motion.div>
-          <h1 className="text-5xl md:text-7xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-4 leading-tight">
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-black text-gray-900 dark:text-white tracking-tight mb-6 leading-[1.1]">
             Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-indigo-500">Siddhesh Gajare</span>
-            <span className="block text-2xl md:text-3xl font-medium text-gray-600 dark:text-gray-300 mt-4">
-              - Full Stack Developer
+            <span className="block text-xl sm:text-2xl md:text-3xl font-bold text-gray-500 dark:text-gray-400 mt-6 mt-4">
+              Full Stack Developer
             </span>
           </h1>
-          <p className="max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-400 mb-10 leading-relaxed">
+          <p className="max-w-2xl mx-auto text-base sm:text-lg text-gray-600 dark:text-gray-400 mb-12 leading-relaxed px-2">
             Building scalable web applications with clean and efficient code. Turning complex problems into elegant, user-friendly solutions.
           </p>
         </motion.div>
