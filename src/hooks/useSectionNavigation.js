@@ -15,11 +15,14 @@ export const useSectionNavigation = (sectionIds, offset = 80) => {
     if (element) {
       // Small delay to ensure any layout shifts have occurred
       setTimeout(() => {
-        const offsetPosition = element.offsetTop - offset;
+        const rect = element.getBoundingClientRect();
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const offsetPosition = rect.top + scrollTop - offset;
 
         window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
+          top: offsetPosition
+          // removed behavior:'smooth' as it's already in global index.css
+          // this prevents double-smooth stuttering on many browsers
         });
         
         // Update hash without page reload

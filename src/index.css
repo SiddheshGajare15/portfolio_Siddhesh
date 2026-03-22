@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 html, body {
-  overflow-x: clip;
+  overflow-x: hidden;
   max-width: 100% !important;
   position: relative;
   width: 100%;

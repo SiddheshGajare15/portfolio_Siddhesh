@@ -34,7 +34,7 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
     // Smooth scroll with a small delay for menu exit
     setTimeout(() => {
       scrollToSection(id);
-    }, 150);
+    }, 250);
   };
 
   return (
