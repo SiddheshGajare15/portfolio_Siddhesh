@@ -24,9 +24,21 @@
   }
 
   body {
-    @apply bg-[var(--background)] text-[var(--text)] antialiased transition-colors duration-300 overflow-x-hidden;
-    font-family: 'Inter', sans-serif;
+    @apply bg-[var(--background)] text-[var(--text)] antialiased transition-colors duration-300 overflow-x-hidden selection:bg-primary/30;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    text-rendering: optimizeLegibility;
   }
+
+  /* Responsive spacing system */
+  .section-padding {
+    @apply py-16 md:py-24 lg:py-32 px-6 sm:px-8 md:px-12 lg:px-24;
+  }
+
+  /* Fluid typography */
+  h1 { @apply text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight; }
+  h2 { @apply text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight; }
+  h3 { @apply text-2xl sm:text-3xl font-bold; }
+  p { @apply text-base sm:text-lg leading-relaxed text-gray-600 dark:text-gray-400; }
 }
 
 html {

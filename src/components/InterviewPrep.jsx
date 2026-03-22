@@ -140,7 +140,7 @@ const InterviewPrep = () => {
   );
 
   return (
-    <section id="interview-prep" className="py-24 bg-[#f8fafc] dark:bg-slate-900/40 relative overflow-hidden">
+    <section id="interview-prep" className="section-padding bg-[#f8fafc] dark:bg-slate-900/40 relative overflow-hidden">
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}

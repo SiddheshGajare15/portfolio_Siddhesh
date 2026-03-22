@@ -5,10 +5,10 @@ const Footer = () => {
   const [visitorCount, setVisitorCount] = useState(null);
 
   useEffect(() => {
-    // Increment and fetch genuine visitor count from CounterAPI
+    // Fetch unique visitor count from our API
     const fetchVisitorCount = async () => {
       try {
-        const response = await fetch("https://api.counterapi.dev/v1/siddhesh-portfolio-visits/visit/up");
+        const response = await fetch("/api/visitor-count");
         if (response.ok) {
           const data = await response.json();
           setVisitorCount(data.count);

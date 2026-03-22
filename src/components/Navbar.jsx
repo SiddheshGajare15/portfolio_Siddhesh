@@ -35,21 +35,21 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
   };
 
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-500 ${scrolled ? 'py-3 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl shadow-lg border-b border-gray-200/20 dark:border-slate-800/20' : 'py-5 bg-transparent'}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav className={`fixed top-0 w-full z-[100] transition-all duration-500 ${scrolled ? 'py-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-lg border-b border-gray-200/20 dark:border-slate-800/20' : 'py-6 bg-transparent'}`}>
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 md:px-12">
         <div className="flex justify-between items-center h-12">
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             onClick={(e) => handleLinkClick(e, 'home')}
-            className="flex-shrink-0 font-extrabold text-2xl tracking-tighter text-primary cursor-pointer drop-shadow-sm"
+            className="flex-shrink-0 font-extrabold text-2xl tracking-tighter text-primary cursor-pointer drop-shadow-sm select-none"
           >
             SG<span className="text-indigo-500">.</span>
           </motion.div>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center">
-            <div className="flex items-center space-x-1 lg:space-x-2 mr-6 px-1.5 py-1.5 bg-gray-100/30 dark:bg-slate-800/30 backdrop-blur-md rounded-full border border-gray-200/10 dark:border-slate-700/10 shadow-inner">
+            <div className="flex items-center space-x-1 lg:space-x-2 mr-6 px-2 py-1.5 bg-gray-100/50 dark:bg-slate-800/50 backdrop-blur-md rounded-full border border-gray-200/20 dark:border-slate-700/20 shadow-sm">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
@@ -60,8 +60,8 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
                   {activeSection === link.id && (
                     <motion.span
                       layoutId="activeNavTab"
-                      className="absolute inset-0 bg-primary rounded-full shadow-lg shadow-primary/30 z-[-1]"
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                      className="absolute inset-0 bg-primary rounded-full shadow-lg shadow-primary/40 z-[-1]"
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
                     />
                   )}
                   {link.name}
@@ -73,59 +73,78 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={toggleDarkMode}
-              className="p-3 rounded-full bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-slate-700 transition-all shadow-md border border-gray-200 dark:border-slate-700 ml-2"
+              className="p-3.5 rounded-full bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-slate-700 transition-all shadow-md border border-gray-200/50 dark:border-slate-700/50 ml-2"
               aria-label="Toggle Dark Mode"
             >
               {darkMode ? <FaSun className="text-yellow-400" /> : <FaMoon />}
             </motion.button>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Button - Improved for Visibility & Touch Area */}
           <div className="md:hidden flex items-center gap-3">
             <button
               onClick={toggleDarkMode}
-              className="p-2.5 rounded-xl bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-gray-200 shadow-sm border border-gray-200 dark:border-slate-700"
+              className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-gray-200 shadow-sm border border-gray-200 dark:border-slate-700 transition-transform active:scale-95"
+              aria-label="Toggle Theme"
             >
               {darkMode ? <FaSun className="text-yellow-400" size={18} /> : <FaMoon size={18} />}
             </button>
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2.5 rounded-xl text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-slate-800 shadow-sm border border-gray-200 dark:border-slate-700 focus:outline-none"
+              className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl text-primary bg-primary/10 dark:bg-slate-800 dark:text-blue-400 shadow-sm border border-primary/20 dark:border-slate-700 transition-transform active:scale-95 focus:outline-none"
+              aria-label={isOpen ? "Close Menu" : "Open Menu"}
+              aria-expanded={isOpen}
+              role="button"
             >
-              {isOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
+              {isOpen ? <FaTimes size={22} /> : <FaBars size={22} />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu Backdrop */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div 
-            initial={{ opacity: 0, y: -10, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -10, scale: 0.95 }}
-            className="md:hidden fixed top-20 inset-x-4 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-3xl border border-gray-200 dark:border-slate-800 shadow-2xl overflow-hidden z-[60]"
-          >
-            <div className="px-4 py-6 space-y-2">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  onClick={(e) => handleLinkClick(e, link.id)}
-                  className={`block px-5 py-4 rounded-2xl text-lg font-bold transition-all duration-300 ${activeSection === link.id ? 'bg-primary text-white shadow-xl shadow-primary/20' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-800'}`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span>{link.name}</span>
-                    {activeSection === link.id && <div className="w-2 h-2 rounded-full bg-white animate-pulse" />}
-                  </div>
-                </a>
-              ))}
-            </div>
-          </motion.div>
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsOpen(false)}
+              className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[-1] md:hidden"
+            />
+            <motion.div 
+              initial={{ opacity: 0, y: -20, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -20, scale: 0.98 }}
+              className="md:hidden absolute top-full left-4 right-4 mt-4 bg-white dark:bg-slate-900 rounded-[2rem] border border-gray-200 dark:border-slate-800 shadow-2xl overflow-hidden"
+            >
+              <div className="p-6 space-y-2">
+                {navLinks.map((link) => (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    onClick={(e) => handleLinkClick(e, link.id)}
+                    className={`block px-6 py-5 rounded-2xl text-lg font-bold transition-all duration-300 ${activeSection === link.id ? 'bg-primary text-white shadow-xl shadow-primary/20' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-800'}`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span>{link.name}</span>
+                      {activeSection === link.id && (
+                        <motion.div 
+                           layoutId="activeDot"
+                           className="w-2.5 h-2.5 rounded-full bg-white shadow-sm ring-2 ring-white/20" 
+                        />
+                      )}
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </nav>
+
 
   );
 };

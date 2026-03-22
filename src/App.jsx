@@ -38,20 +38,25 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-[var(--background)] transition-colors duration-500 selection:bg-primary/20">
       <header>
         <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
       </header>
-      <main>
+      
+      <main className="relative z-10">
+        {/* Each component already handles its own section padding/ID inside */}
         <Hero />
-        <About />
-        <Skills />
-        <Projects />
-        <InterviewPrep />
-        {/* <AICodeExplainer /> */}
-        <Services />
-        <Contact />
+        
+        <div className="flex flex-col gap-12 md:gap-20 lg:gap-32 bg-gray-200/5 dark:bg-slate-800/10">
+           <About />
+           <Skills />
+           <Projects />
+           <InterviewPrep />
+           <Services />
+           <Contact />
+        </div>
       </main>
+
       <Footer />
       <ScrollToTop />
     </div>
