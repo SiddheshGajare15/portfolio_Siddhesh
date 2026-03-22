@@ -24,7 +24,8 @@
   }
 
   body {
-    @apply bg-[var(--background)] text-[var(--text)] antialiased transition-colors duration-300 overflow-x-hidden;
+    @apply bg-[var(--background)] text-[var(--text)] antialiased transition-colors duration-300;
+    overflow-x: clip;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     text-rendering: optimizeLegibility;
   }

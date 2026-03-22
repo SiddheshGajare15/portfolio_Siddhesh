@@ -24,50 +24,40 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  // Prevent background scroll when mobile menu is open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => { document.body.style.overflow = 'unset'; };
-  }, [isOpen]);
 
   const handleLinkClick = (e, id) => {
     e.preventDefault();
     setIsOpen(false);
-    // Add a slight delay for smooth exit before scroll
+    // Smooth scroll with a small delay for menu exit
     setTimeout(() => {
       scrollToSection(id);
-    }, 300);
+    }, 150);
   };
 
   return (
-    <nav className={`fixed top-0 w-full z-[100] transition-all duration-500 ${scrolled ? 'py-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-lg border-b border-gray-200/20 dark:border-slate-800/20' : 'py-6 bg-transparent'}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-12">
+    <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${scrolled ? 'py-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl shadow-lg border-b border-gray-200/10 dark:border-slate-800/10' : 'py-5 bg-transparent'}`}>
+      <div className="max-w-7xl mx-auto px-2 sm:px-10">
         <div className="flex justify-between items-center h-12">
           {/* Brand Logo */}
           <motion.div 
-            initial={{ opacity: 0, x: -20 }}
+            initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             className="flex items-center"
           >
             <a 
               href="#home" 
               onClick={(e) => handleLinkClick(e, 'home')}
-              className="text-2xl font-black tracking-tighter text-gray-900 dark:text-white flex items-center group cursor-pointer"
+              className="text-xl sm:text-2xl font-black tracking-tighter text-gray-900 dark:text-white flex items-center group cursor-pointer"
             >
-              <div className="bg-primary text-white w-9 h-9 rounded-xl flex items-center justify-center mr-2 shadow-lg shadow-primary/30 group-hover:rotate-6 transition-transform">S</div>
+              <div className="bg-primary text-white w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center mr-1.5 sm:mr-2 shadow-lg shadow-primary/30 group-hover:rotate-6 transition-transform">S</div>
               <span className="group-hover:text-primary transition-colors">SG.</span>
             </a>
           </motion.div>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation skipped for brevity - unchanged logic but ensuring flex spacing */}
           <div className="hidden lg:flex items-center space-x-1 lg:space-x-2">
             {navLinks.filter(l => l.id !== 'home').map((link) => (
               <a
@@ -101,21 +91,21 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
             </button>
           </div>
 
-          {/* Mobile Buttons */}
-          <div className="flex lg:hidden items-center gap-3">
+          {/* Mobile Buttons - Improved Spacing to prevent cutoff */}
+          <div className="flex lg:hidden items-center gap-1.5 sm:gap-3">
              <button
               onClick={toggleDarkMode}
-              className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl bg-gray-50 dark:bg-slate-800 text-gray-600 dark:text-gray-400 active:scale-95 transition-all border border-gray-100 dark:border-slate-700 shadow-sm"
+              className="min-h-[40px] min-w-[40px] sm:min-h-[44px] sm:min-w-[44px] flex items-center justify-center rounded-xl bg-gray-50 dark:bg-slate-800 text-gray-600 dark:text-gray-400 active:scale-95 transition-all border border-gray-100 dark:border-slate-700"
               aria-label="Toggle theme"
             >
-              {darkMode ? <FaSun size={20} className="text-yellow-400" /> : <FaMoon size={20} />}
+              {darkMode ? <FaSun size={18} className="text-yellow-400" /> : <FaMoon size={18} />}
             </button>
             <button
               onClick={() => setIsOpen(true)}
-              className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl bg-primary/10 text-primary active:scale-95 transition-all border border-primary/20 shadow-sm"
+              className="min-h-[40px] min-w-[40px] sm:min-h-[44px] sm:min-w-[44px] flex items-center justify-center rounded-xl bg-primary/10 text-primary active:scale-95 transition-all border border-primary/20"
               aria-label="Open Menu"
             >
-              <FaBars size={24} />
+              <FaBars size={22} />
             </button>
           </div>
         </div>
