@@ -1,24 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { FaSun, FaMoon, FaBars, FaTimes, FaLinkedin, FaGithub, FaInstagram } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useSectionNavigation } from '../hooks/useSectionNavigation';
 
 const Navbar = ({ darkMode, toggleDarkMode }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
 
   const navLinks = [
-    { name: 'Home', href: '#home', id: 'home' },
-    { name: 'About', href: '#about', id: 'about' },
-    { name: 'Skills', href: '#skills', id: 'skills' },
-    { name: 'Projects', href: '#projects', id: 'projects' },
-    { name: 'Interview Prep', href: '#interview-prep', id: 'interview-prep' },
-    { name: 'Services', href: '#services', id: 'services' },
-    { name: 'Contact', href: '#contact', id: 'contact' },
+    { name: 'Home', path: '/' },
+    { name: 'About', path: '/about' },
+    { name: 'Skills', path: '/skills' },
+    { name: 'Projects', path: '/projects' },
+    { name: 'Interview Prep', path: '/interview-prep' },
+    { name: 'Services', path: '/services' },
+    { name: 'Contact', path: '/contact' },
   ];
-
-  const sectionIds = navLinks.map(link => link.id);
-  const { activeSection, scrollToSection } = useSectionNavigation(sectionIds);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,7 +28,7 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
-      document.body.style.paddingRight = '0px'; // Prevent shift
+      document.body.style.paddingRight = '0px';
     } else {
       document.body.style.overflow = '';
       document.body.style.paddingRight = '';
@@ -42,11 +39,10 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
     };
   }, [isOpen]);
 
-  const handleLinkClick = (e, id) => {
-    e.preventDefault();
+  // Close mobile menu when location changes
+  useEffect(() => {
     setIsOpen(false);
-    scrollToSection(id);
-  };
+  }, [location.pathname]);
 
   return (
     <nav className={`fixed top-0 left-0 right-0 w-full z-[100] transition-all duration-300 ${scrolled ? 'py-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl shadow-lg border-b border-gray-200/10 dark:border-slate-800/10' : 'py-5 bg-transparent'}`}>
@@ -57,36 +53,38 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
           animate={{ opacity: 1, x: 0 }}
           className="flex items-center"
         >
-          <a 
-            href="#home" 
-            onClick={(e) => handleLinkClick(e, 'home')}
+          <Link 
+            to="/" 
             className="flex items-center cursor-pointer group"
           >
             <div className="bg-primary text-white w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shadow-lg shadow-primary/30 group-hover:rotate-6 transition-transform">S</div>
-          </a>
+          </Link>
         </motion.div>
 
         {/* Desktop Navigation */}
         <div className="hidden lg:flex items-center space-x-1 lg:space-x-2">
-          {navLinks.filter(l => l.id !== 'home').map((link) => (
-            <a
-              key={link.id}
-              href={link.href}
-              onClick={(e) => handleLinkClick(e, link.id)}
-              className={`relative px-4 py-2 text-sm font-bold transition-all duration-300 rounded-full
-                ${activeSection === link.id 
+          {navLinks.filter(l => l.path !== '/').map((link) => (
+            <NavLink
+              key={link.path}
+              to={link.path}
+              className={({ isActive }) => `relative px-4 py-2 text-sm font-bold transition-all duration-300 rounded-full
+                ${isActive 
                   ? 'text-primary' 
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-slate-800/50'}`}
             >
-              {link.name}
-              {activeSection === link.id && (
-                <motion.span
-                  layoutId="desktopActive"
-                  className="absolute inset-0 bg-primary/10 dark:bg-primary/20 rounded-full -z-10"
-                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                />
+              {({ isActive }) => (
+                <>
+                  {link.name}
+                  {isActive && (
+                    <motion.span
+                      layoutId="desktopActive"
+                      className="absolute inset-0 bg-primary/10 dark:bg-primary/20 rounded-full -z-10"
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                </>
               )}
-            </a>
+            </NavLink>
           ))}
           
           <div className="h-6 w-px bg-gray-200 dark:bg-slate-800 mx-4" />
@@ -146,26 +144,33 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
             <div className="flex-1 flex flex-col justify-center items-center px-10">
               <div className="w-full max-w-sm flex flex-col items-center space-y-4">
                 {navLinks.map((link, i) => (
-                  <motion.a
-                    key={link.id}
+                  <motion.div
+                    key={link.path}
                     initial={{ opacity: 0, scale: 0.9, y: 20 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     transition={{ delay: i * 0.05 + 0.2 }}
-                    href={link.href}
-                    onClick={(e) => handleLinkClick(e, link.id)}
-                    className={`group w-full py-5 text-center text-2xl font-black rounded-3xl transition-all relative overflow-hidden
-                      ${activeSection === link.id 
-                        ? 'bg-primary text-white shadow-2xl shadow-primary/30' 
-                        : 'text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-slate-800'}`}
+                    className="w-full"
                   >
-                    <span className="relative z-10">{link.name}</span>
-                    {activeSection === link.id && (
-                       <motion.div 
-                          layoutId="mobileActiveIndicator"
-                          className="absolute inset-0 bg-gradient-to-r from-primary to-indigo-600" 
-                       />
-                    )}
-                  </motion.a>
+                    <NavLink
+                      to={link.path}
+                      className={({ isActive }) => `group w-full py-5 block text-center text-2xl font-black rounded-3xl transition-all relative overflow-hidden
+                        ${isActive 
+                          ? 'bg-primary text-white shadow-2xl shadow-primary/30' 
+                          : 'text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-slate-800'}`}
+                    >
+                      {({ isActive }) => (
+                        <>
+                          <span className="relative z-10">{link.name}</span>
+                          {isActive && (
+                            <motion.div 
+                                layoutId="mobileActiveIndicator"
+                                className="absolute inset-0 bg-gradient-to-r from-primary to-indigo-600" 
+                            />
+                          )}
+                        </>
+                      )}
+                    </NavLink>
+                  </motion.div>
                 ))}
               </div>
             </div>
@@ -173,13 +178,13 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
             {/* Mobile Menu Footer */}
             <div className="p-10 border-t border-gray-100 dark:border-slate-800 flex flex-col items-center gap-8">
                <div className="flex gap-10">
-                  <a href="https://linkedin.com/in/siddhesh-g-4823a222a" target="_blank" className="p-4 rounded-2xl bg-gray-50 dark:bg-slate-800 text-gray-500 hover:text-[#0077b5] transition-all transform hover:-translate-y-1">
+                  <a href="https://linkedin.com/in/siddhesh-g-4823a222a" target="_blank" rel="noopener noreferrer" className="p-4 rounded-2xl bg-gray-50 dark:bg-slate-800 text-gray-500 hover:text-[#0077b5] transition-all transform hover:-translate-y-1">
                      <FaLinkedin size={28} />
                   </a>
-                  <a href="https://github.com/SiddheshGajare15" target="_blank" className="p-4 rounded-2xl bg-gray-50 dark:bg-slate-800 text-gray-500 hover:text-gray-900 dark:hover:text-white transition-all transform hover:-translate-y-1">
+                  <a href="https://github.com/SiddheshGajare15" target="_blank" rel="noopener noreferrer" className="p-4 rounded-2xl bg-gray-50 dark:bg-slate-800 text-gray-500 hover:text-gray-900 dark:hover:text-white transition-all transform hover:-translate-y-1">
                      <FaGithub size={28} />
                   </a>
-                  <a href="https://www.instagram.com/siddhesh_gajare_45/" target="_blank" className="p-4 rounded-2xl bg-gray-50 dark:bg-slate-800 text-gray-500 hover:text-[#dc2743] transition-all transform hover:-translate-y-1">
+                  <a href="https://www.instagram.com/siddhesh_gajare_45/" target="_blank" rel="noopener noreferrer" className="p-4 rounded-2xl bg-gray-50 dark:bg-slate-800 text-gray-500 hover:text-[#dc2743] transition-all transform hover:-translate-y-1">
                      <FaInstagram size={28} />
                   </a>
                </div>

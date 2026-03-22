@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { Routes, Route, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -10,9 +11,23 @@ import Services from './components/Services';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
+import ScrollToTopOnNavigate from './components/ScrollToTopOnNavigate';
+
+const PageWrapper = ({ children }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 5 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: -5 }}
+    transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+    className="w-full flex-grow flex flex-col"
+  >
+    {children}
+  </motion.div>
+);
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     // Check initial user preference or system theme
@@ -38,23 +53,24 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--background)] transition-colors duration-500 selection:bg-primary/20">
+    <div className="min-h-screen bg-[var(--background)] transition-colors duration-500 selection:bg-primary/20 flex flex-col">
+      <ScrollToTopOnNavigate />
       <header>
         <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
       </header>
       
-      <main className="relative z-10">
-        {/* Each component already handles its own section padding/ID inside */}
-        <Hero />
-        
-        <div className="flex flex-col gap-12 md:gap-20 lg:gap-32 bg-gray-200/5 dark:bg-slate-800/10">
-           <About />
-           <Skills />
-           <Projects />
-           <InterviewPrep />
-           <Services />
-           <Contact />
-        </div>
+      <main className="flex-grow pt-20 sm:pt-24 flex flex-col overflow-x-hidden">
+        <AnimatePresence mode="wait">
+          <Routes location={location} key={location.pathname}>
+            <Route path="/" element={<PageWrapper><Hero /></PageWrapper>} />
+            <Route path="/about" element={<PageWrapper><About /></PageWrapper>} />
+            <Route path="/skills" element={<PageWrapper><Skills /></PageWrapper>} />
+            <Route path="/projects" element={<PageWrapper><Projects /></PageWrapper>} />
+            <Route path="/interview-prep" element={<PageWrapper><InterviewPrep /></PageWrapper>} />
+            <Route path="/services" element={<PageWrapper><Services /></PageWrapper>} />
+            <Route path="/contact" element={<PageWrapper><Contact /></PageWrapper>} />
+          </Routes>
+        </AnimatePresence>
       </main>
 
       <Footer />
