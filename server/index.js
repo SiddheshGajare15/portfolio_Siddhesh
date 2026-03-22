@@ -52,6 +52,52 @@ app.post('/api/ai-explain', async (req, res) => {
   }
 });
 
+// Visitor Count Route for Local Dev
+app.get('/api/visitor-count', async (req, res) => {
+    // For local dev, we return a mock count if Supabase isn't configured
+    // This resolves the ECONNREFUSED issues in vite proxy
+    const SUPABASE_URL = process.env.SUPABASE_URL;
+    const SUPABASE_KEY = process.env.SUPABASE_ANON_KEY;
+
+    if (!SUPABASE_URL || !SUPABASE_KEY) {
+        return res.json({ count: 1240, mode: 'local-mock' });
+    }
+
+    try {
+        const ip = req.ip || req.headers['x-forwarded-for'];
+        const ipHash = Buffer.from(ip).toString('base64');
+
+        // Increment count (UPSERT)
+        await fetch(`${SUPABASE_URL}/rest/v1/visits`, {
+            method: 'POST',
+            headers: {
+                'apikey': SUPABASE_KEY,
+                'Authorization': `Bearer ${SUPABASE_KEY}`,
+                'Content-Type': 'application/json',
+                'Prefer': 'resolution=merge-duplicates'
+            },
+            body: JSON.stringify({ ip_hash: ipHash })
+        });
+
+        // Get total
+        const countRes = await fetch(`${SUPABASE_URL}/rest/v1/visits?select=count`, {
+            headers: {
+                'apikey': SUPABASE_KEY,
+                'Authorization': `Bearer ${SUPABASE_KEY}`,
+                'Prefer': 'count=exact'
+            }
+        });
+
+        const contentRange = countRes.headers.get('content-range');
+        const count = contentRange ? parseInt(contentRange.split('/')[1]) : 0;
+        
+        res.json({ count });
+    } catch (err) {
+        console.error("Local Visitor Count Error:", err);
+        res.json({ count: 1240, error: 'fallback' });
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`AI Server running on http://localhost:${PORT}`);
 });
