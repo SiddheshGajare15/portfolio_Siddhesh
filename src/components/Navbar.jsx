@@ -38,75 +38,73 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
   };
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${scrolled ? 'py-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl shadow-lg border-b border-gray-200/10 dark:border-slate-800/10' : 'py-5 bg-transparent'}`}>
-      <div className="max-w-7xl mx-auto px-2 sm:px-10">
-        <div className="flex justify-between items-center h-12">
-          {/* Brand Logo */}
-          <motion.div 
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="flex items-center"
+    <nav className={`fixed top-0 left-0 right-0 w-full z-[100] transition-all duration-300 ${scrolled ? 'py-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl shadow-lg border-b border-gray-200/10 dark:border-slate-800/10' : 'py-5 bg-transparent'}`}>
+      <div className="w-full px-5 sm:px-10 flex justify-between items-center h-12">
+        {/* Brand Logo */}
+        <motion.div 
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="flex items-center"
+        >
+          <a 
+            href="#home" 
+            onClick={(e) => handleLinkClick(e, 'home')}
+            className="flex items-center cursor-pointer group"
           >
-            <a 
-              href="#home" 
-              onClick={(e) => handleLinkClick(e, 'home')}
-              className="text-xl sm:text-2xl font-black tracking-tighter text-gray-900 dark:text-white flex items-center group cursor-pointer"
+            <div className="bg-primary text-white w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shadow-lg shadow-primary/30 group-hover:rotate-6 transition-transform">S</div>
+          </a>
+        </motion.div>
+
+        {/* Desktop Navigation */}
+        <div className="hidden lg:flex items-center space-x-1 lg:space-x-2">
+          {navLinks.filter(l => l.id !== 'home').map((link) => (
+            <a
+              key={link.id}
+              href={link.href}
+              onClick={(e) => handleLinkClick(e, link.id)}
+              className={`relative px-4 py-2 text-sm font-bold transition-all duration-300 rounded-full
+                ${activeSection === link.id 
+                  ? 'text-primary' 
+                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-slate-800/50'}`}
             >
-              <div className="bg-primary text-white w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shadow-lg shadow-primary/30 group-hover:rotate-6 transition-transform">S</div>
+              {link.name}
+              {activeSection === link.id && (
+                <motion.span
+                  layoutId="desktopActive"
+                  className="absolute inset-0 bg-primary/10 dark:bg-primary/20 rounded-full -z-10"
+                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                />
+              )}
             </a>
-          </motion.div>
+          ))}
+          
+          <div className="h-6 w-px bg-gray-200 dark:bg-slate-800 mx-4" />
+          
+          <button
+            onClick={toggleDarkMode}
+            className="p-3 rounded-full bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-slate-700 hover:text-primary transition-all shadow-inner"
+            aria-label="Toggle theme"
+          >
+            {darkMode ? <FaSun size={18} className="text-yellow-400" /> : <FaMoon size={18} />}
+          </button>
+        </div>
 
-          {/* Desktop Navigation skipped for brevity - unchanged logic but ensuring flex spacing */}
-          <div className="hidden lg:flex items-center space-x-1 lg:space-x-2">
-            {navLinks.filter(l => l.id !== 'home').map((link) => (
-              <a
-                key={link.id}
-                href={link.href}
-                onClick={(e) => handleLinkClick(e, link.id)}
-                className={`relative px-4 py-2 text-sm font-bold transition-all duration-300 rounded-full
-                  ${activeSection === link.id 
-                    ? 'text-primary' 
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-slate-800/50'}`}
-              >
-                {link.name}
-                {activeSection === link.id && (
-                  <motion.span
-                    layoutId="desktopActive"
-                    className="absolute inset-0 bg-primary/10 dark:bg-primary/20 rounded-full -z-10"
-                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                  />
-                )}
-              </a>
-            ))}
-            
-            <div className="h-6 w-px bg-gray-200 dark:bg-slate-800 mx-4" />
-            
-            <button
-              onClick={toggleDarkMode}
-              className="p-3 rounded-full bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-slate-700 hover:text-primary transition-all shadow-inner"
-              aria-label="Toggle theme"
-            >
-              {darkMode ? <FaSun size={18} className="text-yellow-400" /> : <FaMoon size={18} />}
-            </button>
-          </div>
-
-          {/* Mobile Buttons - Improved Spacing to prevent cutoff */}
-          <div className="flex lg:hidden items-center gap-1.5 sm:gap-3">
-             <button
-              onClick={toggleDarkMode}
-              className="min-h-[40px] min-w-[40px] sm:min-h-[44px] sm:min-w-[44px] flex items-center justify-center rounded-xl bg-gray-50 dark:bg-slate-800 text-gray-600 dark:text-gray-400 active:scale-95 transition-all border border-gray-100 dark:border-slate-700"
-              aria-label="Toggle theme"
-            >
-              {darkMode ? <FaSun size={18} className="text-yellow-400" /> : <FaMoon size={18} />}
-            </button>
-            <button
-              onClick={() => setIsOpen(true)}
-              className="min-h-[40px] min-w-[40px] sm:min-h-[44px] sm:min-w-[44px] flex items-center justify-center rounded-xl bg-primary/10 text-primary active:scale-95 transition-all border border-primary/20"
-              aria-label="Open Menu"
-            >
-              <FaBars size={22} />
-            </button>
-          </div>
+        {/* Mobile Buttons - Centered better to prevent cutoff */}
+        <div className="flex lg:hidden items-center gap-2 sm:gap-3">
+           <button
+            onClick={toggleDarkMode}
+            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl bg-gray-50/50 dark:bg-slate-800/50 text-gray-600 dark:text-gray-400 active:scale-95 transition-all border border-gray-100 dark:border-slate-800 backdrop-blur-sm"
+            aria-label="Toggle theme"
+          >
+            {darkMode ? <FaSun size={18} className="text-yellow-400" /> : <FaMoon size={18} />}
+          </button>
+          <button
+            onClick={() => setIsOpen(true)}
+            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl bg-primary text-white active:scale-95 transition-all shadow-lg shadow-primary/20"
+            aria-label="Open Menu"
+          >
+            <FaBars size={20} />
+          </button>
         </div>
       </div>
 
