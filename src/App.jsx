@@ -8,6 +8,7 @@ import Services from './components/Services';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import InterviewPrep from './components/InterviewPrep';
+import ScrollToTop from './components/ScrollToTop';
 // import AICodeExplainer from './components/AICodeExplainer';
 
 function App() {
@@ -52,6 +53,7 @@ function App() {
         <Contact />
       </main>
       <Footer />
+      <ScrollToTop />
     </div>
   );
 }
