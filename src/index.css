@@ -24,9 +24,13 @@
   }
 
   body {
-    @apply bg-[var(--background)] text-[var(--text)] antialiased transition-colors duration-300 overflow-x-hidden selection:bg-primary/30;
+    @apply bg-[var(--background)] text-[var(--text)] antialiased transition-colors duration-300 overflow-x-hidden;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    @apply bg-blue-500/20;
   }
 
   /* Responsive spacing system */
