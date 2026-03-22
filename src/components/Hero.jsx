@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import heroTech from '../assets/hero_tech.png';
 
 const Hero = () => {
   return (
@@ -25,16 +26,16 @@ const Hero = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
             </span>
-            Available for New Projects
+            Exploring New Opportunities
           </motion.div>
           
           <h1 className="text-4xl sm:text-6xl md:text-7xl font-black text-gray-900 dark:text-white tracking-tight mb-6 leading-[1.1]">
-            Architecture for <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-indigo-500 to-purple-600">Digital Solutions</span>
+            Building Modern <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-indigo-500 to-purple-600">Web Applications</span>
           </h1>
           
           <p className="max-w-xl text-lg sm:text-xl text-gray-600 dark:text-gray-400 mb-12 leading-relaxed">
-            I am <strong className="text-gray-900 dark:text-white font-bold">Siddhesh Gajare</strong>, a Full Stack Developer dedicated to building robust, scalable applications that solve complex business challenges.
+            I am <strong className="text-gray-900 dark:text-white font-bold">Siddhesh Gajare</strong>, a Full Stack Developer focused on creating fast, user-friendly applications that help businesses and students succeed.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-5">
@@ -65,7 +66,7 @@ const Hero = () => {
             <motion.img 
                animate={{ y: [0, -20, 0] }}
                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-               src="C:/Users/Shubham/.gemini/antigravity/brain/b8d116ba-68e2-4fc8-8809-a602ae959ffd/hero_tech_illustration_1774154870768.png" 
+               src={heroTech} 
                alt="Modern Tech Illustration"
                className="w-full max-w-md rounded-[2.5rem] shadow-2xl transform group-hover:scale-105 transition-transform duration-700"
             />

@@ -30,30 +30,30 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-20">
             <h2 className="text-3xl md:text-5xl font-black text-gray-900 dark:text-white mb-6">
-              Engineering <span className="text-primary italic">Better</span> Solutions
+              Practical <span className="text-primary italic">Web</span> Solutions
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              I specialize in building full-scale web applications from scratch, focusing on scalability, efficiency, and user experience.
+              I focus on building clean, functional applications using modern tech stacks like React, Java, and MySQL.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <HighLightCard 
               icon={<FaRocket />}
-              title="Fast Performance"
-              desc="Optimized frontend and backend systems for lightning-fast load times and smooth user interactions."
+              title="Fast & Responsive"
+              desc="Websites that load quickly and look great on all devices, from mobile phones to desktops."
               delay={0.1}
             />
             <HighLightCard 
               icon={<FaCode />}
-              title="Clean Code"
-              desc="Adhering to SOLID principles and industry best practices to ensure maintainable and scalable codebases."
+              title="Quality Code"
+              desc="Writing clean, organized code that is easy to manage and update in the future."
               delay={0.2}
             />
             <HighLightCard 
               icon={<FaCheckCircle />}
-              title="End-to-End Delivery"
-              desc="From conceptualization and database design to full deployment and continuous maintenance."
+              title="Full Development"
+              desc="Handling everything from the initial design and database setup to the final live website."
               delay={0.3}
             />
           </div>
@@ -95,17 +95,17 @@ const Home = () => {
               className="space-y-8"
             >
               <h2 className="text-3xl md:text-5xl font-black text-gray-900 dark:text-white leading-tight">
-                Want to see <span className="text-primary">Featured Work</span>?
+                Want to see my <span className="text-primary">Best Projects</span>?
               </h2>
               <p className="text-xl text-gray-600 dark:text-gray-400 leading-relaxed">
-                Take a look at some of my latest projects, ranging from administrative tools to full-stack e-commerce solutions.
+                I've worked on various projects, from simple landing pages to complex academic and business tools.
               </p>
               <div className="flex flex-col sm:flex-row gap-6 pt-4">
                  <Link 
                    to="/projects"
                    className="flex items-center justify-center gap-2 group px-10 py-5 bg-primary text-white font-black rounded-2xl hover:bg-blue-600 transition-all shadow-xl shadow-primary/30"
                  >
-                   Explore Portfolio <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
+                   View Portfolio <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
                  </Link>
               </div>
             </motion.div>
@@ -123,13 +123,13 @@ const Home = () => {
          >
             <div className="relative z-10">
                <h2 className="text-3xl md:text-5xl font-black mb-8 leading-[1.2]">
-                 Ready to bring your <br /> ideas to life?
+                 Have a project in mind?
                </h2>
                <Link 
                  to="/contact"
                  className="inline-block px-12 py-5 bg-white text-primary font-black rounded-2xl hover:bg-slate-50 transition-all transform hover:-translate-y-1 shadow-2xl"
                >
-                 Let's Talk Today
+                 Contact Me Today
                </Link>
             </div>
             
