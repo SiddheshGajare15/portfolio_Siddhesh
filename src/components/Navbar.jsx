@@ -52,8 +52,7 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
               onClick={(e) => handleLinkClick(e, 'home')}
               className="text-xl sm:text-2xl font-black tracking-tighter text-gray-900 dark:text-white flex items-center group cursor-pointer"
             >
-              <div className="bg-primary text-white w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center mr-1.5 sm:mr-2 shadow-lg shadow-primary/30 group-hover:rotate-6 transition-transform">S</div>
-              <span className="group-hover:text-primary transition-colors">SG.</span>
+              <div className="bg-primary text-white w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shadow-lg shadow-primary/30 group-hover:rotate-6 transition-transform">S</div>
             </a>
           </motion.div>
 
@@ -124,8 +123,7 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
             {/* Mobile Header */}
             <div className="flex justify-between items-center h-24 px-6 sm:px-10 border-b border-gray-100 dark:border-slate-800">
                <div className="flex items-center">
-                 <div className="bg-primary text-white w-9 h-9 rounded-xl flex items-center justify-center mr-2 shadow-lg shadow-primary/30">S</div>
-                 <span className="text-2xl font-black tracking-tighter text-gray-900 dark:text-white">SG.</span>
+                 <div className="bg-primary text-white w-9 h-9 rounded-xl flex items-center justify-center shadow-lg shadow-primary/30">S</div>
                </div>
               <button
                 onClick={() => setIsOpen(false)}
