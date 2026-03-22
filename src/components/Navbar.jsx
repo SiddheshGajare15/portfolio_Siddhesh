@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { FaSun, FaMoon, FaBars, FaTimes, FaLinkedin, FaGithub, FaInstagram } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
