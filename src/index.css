@@ -34,10 +34,10 @@
     @apply py-16 md:py-24 lg:py-32 px-6 sm:px-8 md:px-12 lg:px-24;
   }
 
-  /* Fluid typography */
-  h1 { @apply text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight; }
-  h2 { @apply text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight; }
-  h3 { @apply text-2xl sm:text-3xl font-bold; }
+  /* Fluid typography - Optimized for long words on mobile */
+  h1 { @apply text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1]; }
+  h2 { @apply text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-tight; }
+  h3 { @apply text-xl sm:text-3xl font-bold leading-snug; }
   p { @apply text-base sm:text-lg leading-relaxed text-gray-600 dark:text-gray-400; }
 }
 

@@ -121,7 +121,7 @@ const InterviewPrep = () => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="bg-white dark:bg-slate-900 rounded-2xl shadow-lg border border-gray-100 dark:border-slate-800 p-8 flex flex-col h-full hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+      className="bg-white dark:bg-slate-900 rounded-2xl shadow-lg border border-gray-100 dark:border-slate-800 p-6 sm:p-8 flex flex-col h-full hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
     >
       <div className="flex justify-between items-start mb-4">
         <h3 className="text-xl font-bold text-gray-900 dark:text-white leading-tight">{question.title}</h3>
@@ -148,7 +148,7 @@ const InterviewPrep = () => {
           viewport={{ once: true }}
           className="text-center max-w-4xl mx-auto mb-16"
         >
-          <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-6">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-6 leading-tight">
             🔥 Interview Preparation – <span className="text-primary italic font-semibold">Coding Questions</span>
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed italic mb-8">
@@ -262,7 +262,7 @@ const InterviewPrep = () => {
                 </button>
               </div>
 
-              <div className="p-8 space-y-8">
+              <div className="p-6 sm:p-8 space-y-8">
                 <div>
                   <h4 className="text-xs font-black uppercase tracking-[0.2em] text-primary mb-3">Problem Statement</h4>
                   <p className="text-gray-700 dark:text-slate-300 leading-relaxed text-lg">{selectedQuestion.statement}</p>

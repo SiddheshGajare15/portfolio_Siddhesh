@@ -8,46 +8,50 @@ import { useState, useEffect, useCallback } from 'react';
 export const useSectionNavigation = (sectionIds, offset = 80) => {
   const [activeSection, setActiveSection] = useState('');
 
-  // Function to scroll to a specific section
+  // Function to scroll to a specific section with retries for late-loading components
   const scrollToSection = useCallback((id, retryCount = 0) => {
     const element = document.getElementById(id);
     
     if (element) {
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
+      // Small delay to ensure any layout shifts have occurred
+      setTimeout(() => {
+        const offsetPosition = element.offsetTop - offset;
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-      
-      // Update hash without page reload
-      if (window.location.hash !== `#${id}`) {
-        window.history.pushState(null, '', `#${id}`);
-      }
-    } else if (retryCount < 10) {
-      // Element not found yet, wait and retry (useful for async loading)
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+        
+        // Update hash without page reload
+        if (window.location.hash !== `#${id}`) {
+          window.history.replaceState(null, '', `#${id}`);
+        }
+      }, 50);
+    } else if (retryCount < 15) {
+      // Element not found/rendered yet, wait and retry
       setTimeout(() => scrollToSection(id, retryCount + 1), 200);
     }
   }, [offset]);
 
-  // Handle initial hash on load and hash changes
+  // Handle deep linking on mount and hash changes
   useEffect(() => {
-    const handleHashChange = () => {
+    const handleInitialScroll = () => {
       const hash = window.location.hash.replace('#', '');
       if (hash && sectionIds.includes(hash)) {
-        // Use a small timeout to ensure components are rendered
-        setTimeout(() => scrollToSection(hash), 100);
+        // Longer initial timeout for Vercel/production loads
+        setTimeout(() => scrollToSection(hash), 500);
       }
     };
 
-    // Initial check
-    if (window.location.hash) {
-      handleHashChange();
-    }
+    // Use multiple triggers to catch different load stages
+    handleInitialScroll();
+    window.addEventListener('load', handleInitialScroll);
+    window.addEventListener('hashchange', handleInitialScroll);
 
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    return () => {
+      window.removeEventListener('load', handleInitialScroll);
+      window.removeEventListener('hashchange', handleInitialScroll);
+    };
   }, [sectionIds, scrollToSection]);
 
   // Monitor scroll position to update active section

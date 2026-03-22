@@ -36,7 +36,7 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
 
   return (
     <nav className={`fixed top-0 w-full z-[100] transition-all duration-500 ${scrolled ? 'py-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-lg border-b border-gray-200/20 dark:border-slate-800/20' : 'py-6 bg-transparent'}`}>
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 md:px-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-12">
         <div className="flex justify-between items-center h-12">
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
