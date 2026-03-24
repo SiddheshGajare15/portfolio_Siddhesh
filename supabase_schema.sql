@@ -8,10 +8,11 @@
 -- 1. USERS TABLE (extends Supabase Auth)
 -- ─────────────────────────────────────────────────────────────────────────────
 create table if not exists public.users (
-  id         uuid references auth.users on delete cascade primary key,
-  email      text unique,
-  is_premium boolean default false,
-  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+  id                uuid references auth.users on delete cascade primary key,
+  email             text unique,
+  is_premium        boolean default false,
+  premium_expires_at timestamp with time zone,
+  created_at        timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
 alter table public.users enable row level security;

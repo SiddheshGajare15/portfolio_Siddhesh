@@ -65,11 +65,22 @@ export default async function handler(req, res) {
     if (updateErr) return res.status(500).json({ error: updateErr.message });
 
     if (status === 'approved') {
-      if (payment?.email) {
-        await notifyUser(payment.email, 'Payment approved', 'Your premium access is now active.');
-      }
+      const expiresAt = new Date();
+      expiresAt.setMonth(expiresAt.getMonth() + 2);
+
       if (payment?.user_id) {
-        await supabase.from('users').update({ is_premium: true }).eq('id', payment.user_id);
+        const { error: userUpdateError } = await supabase.from('users').update({
+          is_premium: true,
+          premium_expires_at: expiresAt.toISOString(),
+        }).eq('id', payment.user_id);
+
+        if (userUpdateError) {
+          console.error('Error setting premium user expiry:', userUpdateError);
+        }
+      }
+
+      if (payment?.email) {
+        await notifyUser(payment.email, 'Payment approved', `Your premium access is now active until ${expiresAt.toDateString()}.`);
       }
     }
 

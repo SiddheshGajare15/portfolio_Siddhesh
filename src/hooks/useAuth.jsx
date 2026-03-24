@@ -12,12 +12,23 @@ export const AuthProvider = ({ children }) => {
     try {
       const { data, error } = await supabase
         .from('users')
-        .select('id, email, is_premium, created_at')
+        .select('id, email, is_premium, premium_expires_at, created_at')
         .eq('id', userId)
         .single();
 
       if (data) {
-        setDbUser(data);
+        const now = new Date();
+        let premiumActive = data.is_premium;
+
+        if (data.premium_expires_at) {
+          const expiresAt = new Date(data.premium_expires_at);
+          if (expiresAt <= now) {
+            premiumActive = false;
+            await supabase.from('users').update({ is_premium: false }).eq('id', userId);
+          }
+        }
+
+        setDbUser({ ...data, is_premium: premiumActive });
         return;
       }
 
@@ -93,8 +104,35 @@ export const AuthProvider = ({ children }) => {
   const login = (email, password) =>
     supabase.auth.signInWithPassword({ email, password });
 
-  const signup = (email, password) =>
-    supabase.auth.signUp({ email, password });
+  const signup = async (email, password) => {
+    if (!email || !password) {
+      return { error: new Error('Email and password are required.') };
+    }
+
+    // Check if user already exists (in auth or user profile)
+    const { data: existingUser, error: existingError } = await supabase
+      .from('users')
+      .select('id')
+      .eq('email', email)
+      .single();
+
+    if (existingError && existingError.code !== 'PGRST116') {
+      console.error('signup existing user check error:', existingError);
+    }
+
+    if (existingUser) {
+      return { error: new Error('A user with this email already exists. Please login.') };
+    }
+
+    const result = await supabase.auth.signUp({ email, password });
+    if (result.error) {
+      if (result.error.message?.toLowerCase().includes('already registered')) {
+        return { error: new Error('A user with this email already exists. Please login.') };
+      }
+    }
+
+    return result;
+  };
 
   const logout = () => supabase.auth.signOut();
 
