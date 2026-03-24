@@ -15,12 +15,16 @@ const Signup = () => {
         e.preventDefault();
         setLoading(true);
         setError(null);
-        const { error } = await signup(formData.email, formData.password);
+        const { error, message } = await signup(formData.email, formData.password);
         if (error) {
             setError(error.message);
             setLoading(false);
         } else {
-            alert("Account created successfully! Please log in.");
+            if (message) {
+                alert(message);
+            } else {
+                alert("Account created successfully! Please log in.");
+            }
             navigate('/login');
         }
     };

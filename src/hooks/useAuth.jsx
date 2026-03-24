@@ -133,6 +133,11 @@ export const AuthProvider = ({ children }) => {
       return { error: result.error };
     }
 
+    // If email confirmation is required, tell user to verify email.
+    if (result.data?.user?.email_confirmed_at === null || result.data?.user?.email_confirmed_at === undefined) {
+      return { data: result.data, message: 'Signup successful. Please verify your email before login.' };
+    }
+
     return result;
   };
 
