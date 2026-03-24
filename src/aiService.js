@@ -27,5 +27,5 @@ export const callAiBackend = async (input, mode = 'explain') => {
 export const isApiKeySet = () => {
   // Now we check if the backend is configured, but from frontend we just return true
   // since the key is now in the backend's .env
-  return true; 
+  return true;
 };

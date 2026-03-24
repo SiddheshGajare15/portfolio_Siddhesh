@@ -52,6 +52,41 @@ app.post('/api/ai-explain', async (req, res) => {
   }
 });
 
+// Mock Database (In real case, use MongoDB or SQL)
+let payments = [];
+let users = [
+  { id: 1, name: "Siddhesh Gajare", email: "siddhesh@example.com", isPremium: false }
+];
+
+app.get('/api/admin/payments', (req, res) => {
+  res.json(payments);
+});
+
+app.post('/api/payments/submit', (req, res) => {
+  const { name, email, transactionId } = req.body;
+  const newPayment = {
+    id: Date.now(),
+    name,
+    email,
+    transactionId,
+    status: 'pending',
+    timestamp: new Date().toISOString()
+  };
+  payments.push(newPayment);
+  res.json({ success: true, payment: newPayment });
+});
+
+app.post('/api/admin/payments/action', (req, res) => {
+  const { id, status } = req.body;
+  const payment = payments.find(p => p.id === id);
+  if (payment) {
+    payment.status = status;
+    return res.json({ success: true });
+  } else {
+    res.status(404).json({ error: 'Payment not found' });
+  }
+});
+
 app.listen(PORT, () => {
     console.log(`AI Server running on http://localhost:${PORT}`);
 });

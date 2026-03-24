@@ -14,8 +14,8 @@ const InterviewPrep = () => {
 
   const getAISolution = async (question) => {
     if (!isApiKeySet()) {
-       setAiResponse("Please configure your API key");
-       return;
+      setAiResponse("Please configure your API key");
+      return;
     }
 
     setLoading(true);
@@ -142,7 +142,7 @@ const InterviewPrep = () => {
   return (
     <section id="interview-prep" className="section-padding bg-[#f8fafc] dark:bg-slate-900/40 relative overflow-hidden">
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -158,10 +158,10 @@ const InterviewPrep = () => {
 
         {/* Professional Transparency Disclaimer */}
         <motion.div
-           initial={{ opacity: 0, y: 10 }}
-           whileInView={{ opacity: 1, y: 0 }}
-           viewport={{ once: true }}
-           className="max-w-3xl mx-auto mb-16 p-4 rounded-2xl bg-blue-50/50 dark:bg-slate-800/50 border border-blue-100/50 dark:border-slate-700/50 flex items-center gap-4 text-sm text-blue-700 dark:text-blue-300"
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="max-w-3xl mx-auto mb-16 p-4 rounded-2xl bg-blue-50/50 dark:bg-slate-800/50 border border-blue-100/50 dark:border-slate-700/50 flex items-center gap-4 text-sm text-blue-700 dark:text-blue-300"
         >
           <FaInfoCircle className="flex-shrink-0 text-blue-500" size={18} />
           <p className="font-medium">
@@ -176,7 +176,7 @@ const InterviewPrep = () => {
               <h3 className="text-2xl md:text-3xl font-black text-slate-800 dark:text-white">TCS NQT – 21 March 2026 Batch</h3>
               <div className="h-0.5 flex-grow bg-gradient-to-r from-primary/30 to-transparent"></div>
             </div>
-            
+
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {[...questions.shift1, ...questions.shift2].map((q, idx) => (
                 <QuestionCard key={idx} question={q} index={idx} />
@@ -186,7 +186,7 @@ const InterviewPrep = () => {
         </div>
 
         {/* Professional Social Connect Block */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, scale: 0.98 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
@@ -195,7 +195,7 @@ const InterviewPrep = () => {
           <div className="absolute top-0 right-0 p-20 opacity-[0.03] dark:opacity-[0.05]">
             <FaLinkedin size={300} className="rotate-12 translate-x-10 translate-y-[-20px]" />
           </div>
-          
+
           <div className="relative z-10">
             <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest mb-6">
               Connect & Get Updates
@@ -206,20 +206,20 @@ const InterviewPrep = () => {
             <p className="text-lg text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed">
               I regularly share coding questions, prep strategies, and tech tips on my social channels. Let's connect and stay ahead.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-              <a 
-                href="https://linkedin.com/in/siddhesh-g-4823a222a" 
-                target="_blank" 
+              <a
+                href="https://linkedin.com/in/siddhesh-g-4823a222a"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 py-4 px-10 bg-[#0077b5] text-white font-bold rounded-2xl hover:bg-[#005a8d] hover:scale-[1.02] transition-all shadow-lg text-lg"
               >
                 <FaLinkedin size={22} />
                 LinkedIn
               </a>
-              <a 
-                href="https://www.instagram.com/siddhesh_gajare_45/" 
-                target="_blank" 
+              <a
+                href="https://www.instagram.com/siddhesh_gajare_45/"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 py-4 px-10 bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] text-white font-bold rounded-2xl hover:opacity-90 hover:scale-[1.02] transition-all shadow-lg text-lg"
               >
@@ -248,12 +248,12 @@ const InterviewPrep = () => {
             >
               <div className="sticky top-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md p-6 flex justify-between items-center border-b dark:border-slate-800 z-10">
                 <div className="flex items-center gap-4">
-                   <h3 className="text-2xl font-bold text-gray-900 dark:text-white">{selectedQuestion.title}</h3>
-                   <span className={`px-4 py-1.5 rounded-full text-xs font-bold text-white ${selectedQuestion.difficultyColor}`}>
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white">{selectedQuestion.title}</h3>
+                  <span className={`px-4 py-1.5 rounded-full text-xs font-bold text-white ${selectedQuestion.difficultyColor}`}>
                     {selectedQuestion.difficulty}
                   </span>
                 </div>
-                <button 
+                <button
                   onClick={() => setSelectedQuestion(null)}
                   className="p-2 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-full transition-colors text-gray-500 dark:text-slate-400"
                 >
@@ -268,22 +268,22 @@ const InterviewPrep = () => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                   <div className="space-y-4">
-                      <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">Constraints & Rules</h4>
-                      <ul className="space-y-2 list-disc list-inside text-gray-600 dark:text-slate-400 text-sm">
-                        {selectedQuestion.rules.map((rule, idx) => <li key={idx} className="pl-2">{rule}</li>)}
-                      </ul>
-                   </div>
-                   <div className="space-y-6">
-                      <div>
-                        <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 mb-2">Input Format</h4>
-                        <p className="text-sm text-gray-600 dark:text-slate-300 italic">{selectedQuestion.inputFormat}</p>
-                      </div>
-                      <div>
-                        <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 mb-2">Output Format</h4>
-                        <p className="text-sm text-gray-600 dark:text-slate-300 italic">{selectedQuestion.outputFormat}</p>
-                      </div>
-                   </div>
+                  <div className="space-y-4">
+                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">Constraints & Rules</h4>
+                    <ul className="space-y-2 list-disc list-inside text-gray-600 dark:text-slate-400 text-sm">
+                      {selectedQuestion.rules.map((rule, idx) => <li key={idx} className="pl-2">{rule}</li>)}
+                    </ul>
+                  </div>
+                  <div className="space-y-6">
+                    <div>
+                      <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 mb-2">Input Format</h4>
+                      <p className="text-sm text-gray-600 dark:text-slate-300 italic">{selectedQuestion.inputFormat}</p>
+                    </div>
+                    <div>
+                      <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 mb-2">Output Format</h4>
+                      <p className="text-sm text-gray-600 dark:text-slate-300 italic">{selectedQuestion.outputFormat}</p>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="bg-slate-50 dark:bg-slate-950 rounded-2xl p-6 border dark:border-slate-800">
@@ -306,56 +306,56 @@ const InterviewPrep = () => {
 
                 {/* AI Solution Area */}
                 <div className="pt-8 border-t dark:border-slate-800">
-                   <div className="flex items-center justify-between mb-6">
-                      <h4 className="text-sm font-black uppercase tracking-widest text-primary flex items-center gap-2">
-                        <FaRobot className="animate-pulse" />
-                        AI Analysis
-                      </h4>
-                      {!aiResponse && !loading && (
-                        <button 
-                          onClick={() => getAISolution(selectedQuestion)}
-                          className="text-xs font-bold py-2 px-5 rounded-full bg-primary/10 text-primary border border-primary/20 hover:bg-primary hover:text-white transition-all"
-                        >
-                          Generate AI Answer
-                        </button>
-                      )}
-                   </div>
-
-                   {loading ? (
-                     <div className="bg-slate-50 dark:bg-slate-950/50 rounded-2xl p-8 text-center">
-                        <FaSyncAlt size={24} className="animate-spin text-primary mx-auto mb-4" />
-                        <p className="text-sm text-gray-500 font-medium">AI is thinking about the best solution...</p>
-                     </div>
-                   ) : aiResponse ? (
-                     <motion.div 
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="prose prose-slate dark:prose-invert max-w-none bg-slate-50 dark:bg-slate-950/50 rounded-2xl p-8 border dark:border-slate-800"
+                  <div className="flex items-center justify-between mb-6">
+                    <h4 className="text-sm font-black uppercase tracking-widest text-primary flex items-center gap-2">
+                      <FaRobot className="animate-pulse" />
+                      AI Analysis
+                    </h4>
+                    {!aiResponse && !loading && (
+                      <button
+                        onClick={() => getAISolution(selectedQuestion)}
+                        className="text-xs font-bold py-2 px-5 rounded-full bg-primary/10 text-primary border border-primary/20 hover:bg-primary hover:text-white transition-all"
                       >
-                        <ReactMarkdown 
-                           components={{
-                               code({node, inline, className, children, ...props}) {
-                                   return !inline ? (
-                                       <pre className="p-4 bg-slate-900 rounded-xl overflow-x-auto my-4 text-xs">
-                                           <code className="text-blue-400 font-mono" {...props}>{children}</code>
-                                       </pre>
-                                   ) : (
-                                       <code className="px-1.5 py-0.5 bg-blue-50 dark:bg-blue-900/30 text-primary font-bold rounded" {...props}>{children}</code>
-                                   )
-                               }
-                           }}
-                        >
-                          {aiResponse}
-                        </ReactMarkdown>
-                     </motion.div>
-                   ) : (
-                     <p className="text-sm text-gray-400 italic">Need help? Click Generate to get an AI-powered solution.</p>
-                   )}
+                        Generate AI Answer
+                      </button>
+                    )}
+                  </div>
+
+                  {loading ? (
+                    <div className="bg-slate-50 dark:bg-slate-950/50 rounded-2xl p-8 text-center">
+                      <FaSyncAlt size={24} className="animate-spin text-primary mx-auto mb-4" />
+                      <p className="text-sm text-gray-500 font-medium">AI is thinking about the best solution...</p>
+                    </div>
+                  ) : aiResponse ? (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="prose prose-slate dark:prose-invert max-w-none bg-slate-50 dark:bg-slate-950/50 rounded-2xl p-8 border dark:border-slate-800"
+                    >
+                      <ReactMarkdown
+                        components={{
+                          code({ node, inline, className, children, ...props }) {
+                            return !inline ? (
+                              <pre className="p-4 bg-slate-900 rounded-xl overflow-x-auto my-4 text-xs">
+                                <code className="text-blue-400 font-mono" {...props}>{children}</code>
+                              </pre>
+                            ) : (
+                              <code className="px-1.5 py-0.5 bg-blue-50 dark:bg-blue-900/30 text-primary font-bold rounded" {...props}>{children}</code>
+                            )
+                          }
+                        }}
+                      >
+                        {aiResponse}
+                      </ReactMarkdown>
+                    </motion.div>
+                  ) : (
+                    <p className="text-sm text-gray-400 italic">Need help? Click Generate to get an AI-powered solution.</p>
+                  )}
                 </div>
               </div>
 
               <div className="p-6 border-t dark:border-slate-800 flex justify-end">
-                <button 
+                <button
                   onClick={() => { setSelectedQuestion(null); setAiResponse(''); }}
                   className="py-3 px-8 bg-primary text-white font-bold rounded-2xl hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20"
                 >
