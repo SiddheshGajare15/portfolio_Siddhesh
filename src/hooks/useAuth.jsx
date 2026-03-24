@@ -133,12 +133,17 @@ export const AuthProvider = ({ children }) => {
       return { error: result.error };
     }
 
-    // If email confirmation is required, tell user to verify email.
-    if (result.data?.user?.email_confirmed_at === null || result.data?.user?.email_confirmed_at === undefined) {
-      return { data: result.data, message: 'Signup successful. Please verify your email before login.' };
+    // Evaluate email confirmation status with robust field handling.
+    const userObj = result.data?.user;
+    if (userObj) {
+      const emailConfirmedAt = userObj.email_confirmed_at ?? userObj.confirmed_at;
+      if (!emailConfirmedAt) {
+        return { data: result.data, message: 'Signup successful. Please verify your email before login.' };
+      }
+      return { data: result.data, message: 'Signup successful. You can now log in.' };
     }
 
-    return result;
+    return { error: new Error('Signup failed: no user information returned from auth service.') };
   };
 
   const logout = () => supabase.auth.signOut();
