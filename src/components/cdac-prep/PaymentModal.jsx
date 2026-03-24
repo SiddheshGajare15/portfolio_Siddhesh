@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, CheckCircle2, ShieldCheck, ChevronRight, Copy, Loader2, FileCheck2, Smartphone } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
-import { supabase } from '../../lib/supabase';
 
 // UPI details
 const UPI_ID     = 'siddheshgajare15@okicici';
@@ -45,23 +44,33 @@ const PaymentModal = ({ onClose }) => {
     setIsSubmitting(true);
     setError(null);
 
-    const { error: dbErr } = await supabase.from('payments').insert({
-      user_id: user.id,
-      transaction_id: txId.trim(),
-      status: 'pending',
-    });
+    try {
+      const payload = {
+        name: user.user_metadata?.name || user.email,
+        email: email || user.email,
+        transactionId: txId.trim(),
+        userId: user.id,
+      };
 
-    setIsSubmitting(false);
+      const resp = await fetch('/api/payments/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
 
-    if (dbErr) {
-      setError(
-        dbErr.message.includes('unique')
-          ? 'This Transaction ID was already submitted. Contact support if you think this is an error.'
-          : dbErr.message
-      );
-    } else {
-      refreshDbUser();
-      setStep(3);
+      const body = await resp.json();
+
+      if (!resp.ok) {
+        setError(body.error || 'Failed to submit payment.');
+      } else {
+        refreshDbUser();
+        setStep(3);
+      }
+    } catch (err) {
+      console.error('Payment submit error:', err);
+      setError('An unexpected error occurred. Please try again later.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
