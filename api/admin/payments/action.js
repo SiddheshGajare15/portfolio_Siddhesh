@@ -50,6 +50,12 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
+  const adminToken = req.headers['x-admin-token'];
+  const expectedAdminToken = process.env.ADMIN_API_TOKEN;
+  if (!expectedAdminToken || adminToken !== expectedAdminToken) {
+    return res.status(403).json({ error: 'Forbidden: invalid admin token.' });
+  }
+
   const { id, status } = req.body;
   if (!id || !status) return res.status(400).json({ error: 'id and status are required' });
 

@@ -45,7 +45,20 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { email, transactionId, name, userId } = req.body;
+  const authHeader = req.headers.authorization || '';
+  const token = authHeader.replace('Bearer ', '').trim();
+
+  if (!token) {
+    return res.status(401).json({ error: 'Authorization token is required.' });
+  }
+
+  const { data: authData, error: authError } = await supabase.auth.getUser(token);
+  if (authError || !authData?.user) {
+    return res.status(401).json({ error: 'Invalid or expired auth token.' });
+  }
+
+  const userId = authData.user.id;
+  const { email, transactionId, name } = req.body;
 
   if (!transactionId) {
     return res.status(400).json({ error: 'Transaction ID is required.' });
@@ -56,7 +69,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { data, error } = await supabase.from('payments').insert([{ user_id: req.body.userId || null, transaction_id: transactionId, status: 'pending' }]);
+    const { data, error } = await supabase.from('payments').insert([{ user_id: userId, transaction_id: transactionId, status: 'pending' }]);
 
     if (error) {
       return res.status(400).json({ error: error.message });
