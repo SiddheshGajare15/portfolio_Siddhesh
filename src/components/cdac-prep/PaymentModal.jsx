@@ -58,10 +58,15 @@ const PaymentModal = ({ onClose }) => {
         body: JSON.stringify(payload),
       });
 
-      const body = await resp.json();
+      let body;
+      try {
+        body = await resp.json();
+      } catch (jsonErr) {
+        body = null;
+      }
 
       if (!resp.ok) {
-        setError(body.error || 'Failed to submit payment.');
+        setError((body && body.error) || 'Failed to submit payment. Server responded with error.');
       } else {
         refreshDbUser();
         setStep(3);

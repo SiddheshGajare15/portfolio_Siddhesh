@@ -45,10 +45,10 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { email, transactionId, name } = req.body;
+  const { email, transactionId, name, userId } = req.body;
 
-  if (!email || !transactionId) {
-    return res.status(400).json({ error: 'Email and transaction ID are required.' });
+  if (!transactionId) {
+    return res.status(400).json({ error: 'Transaction ID is required.' });
   }
 
   if (!supabaseUrl || !supabaseServiceKey) {
@@ -56,7 +56,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { data, error } = await supabase.from('payments').insert([{ email, transaction_id: transactionId, status: 'pending', user_name: name || null }]);
+    const { data, error } = await supabase.from('payments').insert([{ user_id: req.body.userId || null, transaction_id: transactionId, status: 'pending' }]);
 
     if (error) {
       return res.status(400).json({ error: error.message });
