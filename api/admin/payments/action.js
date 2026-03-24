@@ -1,6 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
 import nodemailer from 'nodemailer';
-import Twilio from 'twilio';
 
 const supabaseUrl = process.env.VITE_SUPABASE_URL;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -17,10 +16,6 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const twilioClient = process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN
-  ? Twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
-  : null;
-
 async function notifyAdmin(subject, message) {
   const adminEmail = process.env.ADMIN_EMAIL;
   const adminWhatsApp = process.env.ADMIN_WHATSAPP_TO;
@@ -31,21 +26,11 @@ async function notifyAdmin(subject, message) {
     } catch (err) { console.error('admin email notify failed', err); }
   }
 
-  if (adminWhatsApp && twilioClient && process.env.TWILIO_WHATSAPP_FROM) {
-    try {
-      await twilioClient.messages.create({
-        body: `${subject}\n${message}`,
-        from: process.env.TWILIO_WHATSAPP_FROM,
-        to: adminWhatsApp,
-      });
-    } catch (err) { console.error('admin whatsapp notify failed', err); }
-  }
 }
 
 async function notifyUser(email, subject, text) {
   if (!email) return;
   const userNotifier = transporter;
-
   if (userNotifier) {
     try {
       await userNotifier.sendMail({ from: process.env.SMTP_USER, to: email, subject, text });

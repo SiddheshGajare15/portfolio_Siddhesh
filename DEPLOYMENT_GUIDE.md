@@ -50,11 +50,13 @@ SMTP_PORT=587
 SMTP_USER=your@smtp.user
 SMTP_PASS=supersecret
 ADMIN_EMAIL=admin@example.com
-TWILIO_ACCOUNT_SID=ACxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-TWILIO_AUTH_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-TWILIO_WHATSAPP_FROM=whatsapp:+14155238886
-ADMIN_WHATSAPP_TO=whatsapp:+919xxxxxxxxx
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+
+# Optional (Twilio/WhatsApp for ready-made notifications)
+# TWILIO_ACCOUNT_SID=ACxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# TWILIO_AUTH_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# TWILIO_WHATSAPP_FROM=whatsapp:+14155238886
+# ADMIN_WHATSAPP_TO=whatsapp:+919xxxxxxxxx
 ```
 
 For Vercel deployment, set these environment variables in the project settings (Production, Preview, Development).  
