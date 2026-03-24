@@ -109,14 +109,14 @@ export const AuthProvider = ({ children }) => {
       return { error: new Error('Email and password are required.') };
     }
 
-    // Check if user already exists (in auth or user profile)
+    // Check if user already exists in user profile table
     const { data: existingUser, error: existingError } = await supabase
       .from('users')
       .select('id')
       .eq('email', email)
-      .single();
+      .maybeSingle();
 
-    if (existingError && existingError.code !== 'PGRST116') {
+    if (existingError) {
       console.error('signup existing user check error:', existingError);
     }
 
@@ -126,9 +126,11 @@ export const AuthProvider = ({ children }) => {
 
     const result = await supabase.auth.signUp({ email, password });
     if (result.error) {
-      if (result.error.message?.toLowerCase().includes('already registered')) {
+      const msg = result.error.message.toLowerCase();
+      if (msg.includes('already registered') || msg.includes('duplicate')) {
         return { error: new Error('A user with this email already exists. Please login.') };
       }
+      return { error: result.error };
     }
 
     return result;
