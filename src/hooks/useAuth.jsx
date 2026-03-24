@@ -10,11 +10,22 @@ export const AuthProvider = ({ children }) => {
 
   const fetchUserData = useCallback(async (userId) => {
     try {
-      const { data, error } = await supabase
+      let result = await supabase
         .from('users')
         .select('id, email, is_premium, premium_expires_at, created_at')
         .eq('id', userId)
         .single();
+
+      // Handle legacy table without premium_expires_at
+      if (result.error && result.error.message?.includes('column users.premium_expires_at does not exist')) {
+        result = await supabase
+          .from('users')
+          .select('id, email, is_premium, created_at')
+          .eq('id', userId)
+          .single();
+      }
+
+      const { data, error } = result;
 
       if (data) {
         const now = new Date();
